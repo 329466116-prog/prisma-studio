@@ -7,7 +7,7 @@ const HERO_VIDEO =
   'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260405_170732_8a9ccda6-5cff-4628-b164-059c500a2b41.mp4'
 
 const HERO_DESCRIPTION =
-  '国网人 · AI 折腾爱好者 · 持续学习的工作流手艺人。擅长把繁琐流程用脚本和工具链串起来，PPT 制作 / 信息图设计 / 自动化工作流 / 偶尔写写代码。'
+  '电力 AI 工程师 · 持续学习的工作流手艺人。擅长把繁琐流程用脚本和工具链串起来，PPT 制作 / 信息图设计 / 自动化工作流 / 偶尔写写代码。'
 
 export function Hero() {
   return (

@@ -134,7 +134,7 @@ export function Features() {
             number="01"
             iconUrl={ICON_STORYBOARD}
             items={[
-              'PPT 制作:65 页配电网数智化运维汇报',
+              'PPT 制作:大型汇报材料的快速产出',
               '信息图设计:小红书 3:4 / 公众号 21:9',
               'AI 工具链:Qwen3-TTS / PaddleOCR-VL / Remotion',
               '脚本自动化:Python + Playwright + cron',

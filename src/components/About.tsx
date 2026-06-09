@@ -4,7 +4,7 @@ import { WordsPullUpMultiStyle } from './WordsPullUpMultiStyle'
 
 const ABOUT_HEADING = [
   { text: '我是钱多多,', className: 'font-normal' },
-  { text: '一个国网人 + AI 折腾爱好者。', className: 'font-serif italic' },
+  { text: '一个电力 AI 工程师。', className: 'font-serif italic' },
   {
     text: '擅长 PPT 制作、信息图设计、AI 工具链整合。',
     className: 'font-normal',
@@ -12,7 +12,7 @@ const ABOUT_HEADING = [
 ]
 
 const ABOUT_BODY =
-  '过去几年在国网做配电网数智化运维相关工作,日常离不开 PPT 制作、汇报材料、公众号文章。养成了用 AI 工具和脚本提效的习惯:从 last30days 调研社区反馈,到 react-ppt 框架做演示文稿,到 remotion 写视频,再到价格猎人跑比价。折腾不停,记录不止。'
+  '过去几年在电力行业做 AI 应用落地相关工作,日常离不开 PPT 制作、汇报材料、公众号文章。养成了用 AI 工具和脚本提效的习惯:从 last30days 调研社区反馈,到 react-ppt 框架做演示文稿,到 remotion 写视频,再到价格猎人跑比价。折腾不停,记录不止。'
 
 function CharSpan({ char, index, inView }: { char: string; index: number; inView: boolean }) {
   const delay = index * 0.003
