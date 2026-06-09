@@ -85,7 +85,7 @@ const HERO_DESCRIPTION = '...'   // ← Hero.tsx 顶部
 ```tsx
 const ABOUT_HEADING = [
   { text: '我是钱多多，', className: 'font-normal' },
-  { text: '一个爱折腾 AI 的国网人。', className: 'font-serif italic' },
+  { text: '一个爱折腾 AI 的电力工程师。', className: 'font-serif italic' },
   { text: '会做 PPT、信息图、AI 工作流。', className: 'font-normal' },
 ]
 ```
