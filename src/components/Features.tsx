@@ -20,11 +20,13 @@ interface FeatureCardProps {
   iconUrl?: string
   items: string[]
   delay: number
+  id?: string
 }
 
-function FeatureCard({ title, number, iconUrl, items, delay }: FeatureCardProps) {
+function FeatureCard({ title, number, iconUrl, items, delay, id }: FeatureCardProps) {
   return (
     <motion.div
+      id={id}
       initial={{ opacity: 0, scale: 0.95 }}
       whileInView={{ opacity: 1, scale: 1 }}
       transition={{
@@ -33,7 +35,7 @@ function FeatureCard({ title, number, iconUrl, items, delay }: FeatureCardProps)
         ease: [0.22, 1, 0.36, 1],
       }}
       viewport={{ once: true, margin: '-100px' }}
-      className="bg-[#212121] rounded-2xl p-5 sm:p-6 md:p-7 flex flex-col gap-4 sm:gap-5 min-h-[280px] sm:min-h-[360px] md:min-h-[420px] lg:min-h-[480px]"
+      className="bg-[#212121] rounded-2xl p-5 sm:p-6 md:p-7 flex flex-col gap-4 sm:gap-5 min-h-[280px] sm:min-h-[360px] md:min-h-[420px] lg:min-h-[480px] scroll-mt-24"
     >
       {iconUrl && (
         <img
@@ -81,7 +83,7 @@ function VideoCard() {
         ease: [0.22, 1, 0.36, 1],
       }}
       viewport={{ once: true, margin: '-100px' }}
-      className="relative rounded-2xl overflow-hidden min-h-[280px] sm:min-h-[360px] md:min-h-[420px] lg:min-h-[480px] bg-[#212121] row-span-1"
+      className="relative rounded-2xl overflow-hidden min-h-[280px] sm:min-h-[360px] md:min-h-[420px] lg:min-h-[480px] bg-[#212121]"
     >
       <video
         src={FEATURE_VIDEO}
@@ -93,7 +95,7 @@ function VideoCard() {
       />
       <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
       <p className="absolute bottom-5 left-5 sm:bottom-6 sm:left-6 md:bottom-7 md:left-7 text-[#E1E0CC] text-base sm:text-lg md:text-xl font-normal">
-        Your creative canvas.
+        一路折腾的记录。
       </p>
     </motion.div>
   )
@@ -102,66 +104,67 @@ function VideoCard() {
 export function Features() {
   return (
     <section
-      id="workshops"
+      id="skills"
       className="min-h-screen bg-black w-full px-4 sm:px-6 md:px-8 py-16 sm:py-24 md:py-32 relative"
     >
-      {/* Subtle background noise */}
       <div className="absolute inset-0 bg-noise opacity-[0.15] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto relative z-10">
-        {/* Header */}
         <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-normal text-center mb-10 sm:mb-16 max-w-5xl mx-auto">
           <WordsPullUpMultiStyle
             segments={[
               {
-                text: 'Studio-grade workflows for visionary creators.',
+                text: '从 PPT 到工作流，从信息图到视频脚本。',
                 className: 'text-[#E1E0CC] font-normal',
               },
               {
-                text: 'Built for pure vision. Powered by art.',
+                text: '靠的不是天赋，是折腾。',
                 className: 'text-gray-500 font-normal',
               },
             ]}
           />
         </h2>
 
-        {/* Card grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-2 md:gap-1">
           <VideoCard />
 
           <FeatureCard
-            title="Project Storyboard."
+            id="now"
+            title="核心技能"
             number="01"
             iconUrl={ICON_STORYBOARD}
             items={[
-              'Drag-and-drop timeline editing',
-              'Multi-track audio and color labeling',
-              'Real-time collaboration with your team',
-              'Version history with side-by-side compare',
+              'PPT 制作:65 页配电网数智化运维汇报',
+              '信息图设计:小红书 3:4 / 公众号 21:9',
+              'AI 工具链:Qwen3-TTS / PaddleOCR-VL / Remotion',
+              '脚本自动化:Python + Playwright + cron',
             ]}
             delay={0.15}
           />
 
           <FeatureCard
-            title="Smart Critiques."
+            title="最近在玩"
             number="02"
             iconUrl={ICON_CRITIQUES}
             items={[
-              'AI-assisted shot analysis and notes',
-              'Creative direction comments on every frame',
-              'Tool integrations with DaVinci and Premiere',
+              'last30days:多源 30 天舆情调研',
+              'react-ppt:React 动画演示文稿框架',
+              'remotion:用 React 写视频',
+              'prisma-studio:就是你现在看到的这个',
             ]}
             delay={0.3}
           />
 
           <FeatureCard
-            title="Immersion Capsule."
+            id="hobbies"
+            title="兴趣爱好"
             number="03"
             iconUrl={ICON_CAPSULE}
             items={[
-              'Notification silencing for deep focus',
-              'Ambient soundscapes curated to your taste',
-              'Schedule syncing with team time zones',
+              '小红书美食攻略 + 高德地图点位',
+              '百度贴吧:钱小虾 🦐 吧',
+              '飞书工作流 + 钱宸科学课',
+              '多多车:汽车数据整理',
             ]}
             delay={0.45}
           />

@@ -7,7 +7,7 @@ const HERO_VIDEO =
   'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260405_170732_8a9ccda6-5cff-4628-b164-059c500a2b41.mp4'
 
 const HERO_DESCRIPTION =
-  'Prisma is a worldwide network of visual artists, filmmakers and storytellers bound not by place, status or labels but by passion and hunger to unlock potential through our unique perspectives.'
+  '国网人 · AI 折腾爱好者 · 持续学习的工作流手艺人。擅长把繁琐流程用脚本和工具链串起来，PPT 制作 / 信息图设计 / 自动化工作流 / 偶尔写写代码。'
 
 export function Hero() {
   return (
@@ -37,18 +37,11 @@ export function Hero() {
           <div className="grid grid-cols-12 gap-4 sm:gap-6 items-end">
             {/* Left 8 cols: heading */}
             <div className="col-span-12 sm:col-span-8">
-              <div
-                className="text-[#E1E0CC] font-medium leading-[0.85] tracking-[-0.07em]"
-                style={{
-                  fontSize: 'clamp(80px, 26vw, 280px)',
-                }}
-              >
-                <WordsPullUp
-                  text="Prisma"
-                  className="text-[26vw] sm:text-[24vw] md:text-[22vw] lg:text-[20vw] xl:text-[19vw] 2xl:text-[20vw] font-medium leading-[0.85] tracking-[-0.07em] text-[#E1E0CC]"
-                  showAsterisk
-                />
-              </div>
+              <WordsPullUp
+                text="Prisma"
+                className="text-[26vw] sm:text-[24vw] md:text-[22vw] lg:text-[20vw] xl:text-[19vw] 2xl:text-[20vw] font-medium leading-[0.85] tracking-[-0.07em] text-[#E1E0CC]"
+                showAsterisk
+              />
             </div>
 
             {/* Right 4 cols: text + CTA */}
@@ -80,7 +73,7 @@ export function Hero() {
                   href="#about"
                   className="group inline-flex items-center gap-2 bg-primary rounded-full pl-5 pr-2 py-2 text-black font-medium text-sm sm:text-base transition-all duration-300 hover:gap-3"
                 >
-                  <span>Join the lab</span>
+                  <span>看看我在做啥</span>
                   <span className="bg-black rounded-full w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center transition-transform duration-300 group-hover:scale-110">
                     <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 text-[#E1E0CC]" />
                   </span>

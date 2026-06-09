@@ -3,19 +3,18 @@ import { useRef } from 'react'
 import { WordsPullUpMultiStyle } from './WordsPullUpMultiStyle'
 
 const ABOUT_HEADING = [
-  { text: 'I am Marcus Chen,', className: 'font-normal' },
-  { text: 'a self-taught director.', className: 'font-serif italic' },
+  { text: '我是钱多多,', className: 'font-normal' },
+  { text: '一个国网人 + AI 折腾爱好者。', className: 'font-serif italic' },
   {
-    text: 'I have skills in color grading, visual effects, and narrative design.',
+    text: '擅长 PPT 制作、信息图设计、AI 工具链整合。',
     className: 'font-normal',
   },
 ]
 
 const ABOUT_BODY =
-  'Over the last seven years, I have worked with Parallax, a Berlin-based production house that crafts cinema, series, and Noir Studio in Paris. Together, we have created work that has earned international acclaim at several major festivals.'
+  '过去几年在国网做配电网数智化运维相关工作,日常离不开 PPT 制作、汇报材料、公众号文章。养成了用 AI 工具和脚本提效的习惯:从 last30days 调研社区反馈,到 react-ppt 框架做演示文稿,到 remotion 写视频,再到价格猎人跑比价。折腾不停,记录不止。'
 
 function CharSpan({ char, index, inView }: { char: string; index: number; inView: boolean }) {
-  // Stagger: ~3ms per char so a 250-char paragraph takes ~0.75s
   const delay = index * 0.003
   const display = char === ' ' ? '\u00A0' : char
   return (
@@ -42,23 +41,21 @@ export function About() {
 
   return (
     <section
-      id="our-story"
+      id="about"
       ref={sectionRef}
       className="bg-black w-full px-4 sm:px-6 md:px-8 py-16 sm:py-24 md:py-32"
     >
       <div className="max-w-6xl mx-auto">
         <div className="bg-[#101010] rounded-2xl md:rounded-[2rem] p-6 sm:p-10 md:p-16 text-center">
-          {/* Top label */}
           <motion.span
             initial={{ opacity: 0, y: 10 }}
             animate={headingInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
             transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
             className="inline-block text-primary text-[10px] sm:text-xs tracking-wider uppercase mb-6 sm:mb-10"
           >
-            Visual arts
+            关于我
           </motion.span>
 
-          {/* Multi-style pull-up heading */}
           <h2
             ref={headingRef}
             className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl max-w-3xl mx-auto leading-[0.95] sm:leading-[0.9] mb-10 sm:mb-16"
@@ -66,7 +63,6 @@ export function About() {
             <WordsPullUpMultiStyle segments={ABOUT_HEADING} />
           </h2>
 
-          {/* Character-stagger fade-in body */}
           <p
             ref={bodyRef}
             className="text-[#DEDBC8] text-xs sm:text-sm md:text-base max-w-3xl mx-auto"
