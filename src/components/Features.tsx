@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion'
 import { ArrowRight, Check } from 'lucide-react'
+import { SideRays } from './SideRays'
 import { WordsPullUpMultiStyle } from './WordsPullUpMultiStyle'
 
 const FEATURE_VIDEO =
@@ -105,8 +106,22 @@ export function Features() {
   return (
     <section
       id="skills"
-      className="min-h-screen bg-black w-full px-4 sm:px-6 md:px-8 py-16 sm:py-24 md:py-32 relative"
+      className="snap-section min-h-screen bg-black w-full px-4 sm:px-6 md:px-8 py-16 sm:py-24 md:py-32 relative overflow-hidden"
     >
+      {/* SideRays 光照背景 - 从右侧发蓝,三个 section 三种光线源头 */}
+      <SideRays
+        speed={2.2}
+        rayColor1="#FFD700"
+        rayColor2="#7BB8FF"
+        intensity={3}
+        spread={2.5}
+        origin="top-left"
+        tilt={-10}
+        saturation={1.8}
+        blend={0.6}
+        falloff={1.4}
+        opacity={0.9}
+      />
       <div className="absolute inset-0 bg-noise opacity-[0.15] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto relative z-10">

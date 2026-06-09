@@ -26,6 +26,22 @@ html, body {
   overflow-x: hidden;
 }
 
+/* === SCROLL SNAP: 一次滚轮=1 个 section, 3 段平滑滑动 === */
+html {
+  scroll-snap-type: y mandatory;
+  /* 不用 scroll-behavior: smooth,会和 mandatory snap 冲突导致偏移 */
+}
+
+.snap-section {
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+}
+
+/* === SMOOTH SCROLL 偏移: anchor 链接不顶到屏幕边缘 === */
+.snap-section[id] {
+  scroll-margin-top: 0;
+}
+
 /* === SVG NOISE TEXTURES (data URI inline) === */
 
 /* Heavy noise overlay for hero video (opacity 0.7) */

@@ -1,5 +1,6 @@
 import { motion, useInView } from 'framer-motion'
 import { useRef } from 'react'
+import { SideRays } from './SideRays'
 import { WordsPullUpMultiStyle } from './WordsPullUpMultiStyle'
 
 const ABOUT_HEADING = [
@@ -43,8 +44,22 @@ export function About() {
     <section
       id="about"
       ref={sectionRef}
-      className="bg-black w-full px-4 sm:px-6 md:px-8 py-16 sm:py-24 md:py-32"
+      className="snap-section relative w-full h-screen overflow-hidden bg-black px-4 sm:px-6 md:px-8 flex flex-col justify-center"
     >
+      {/* SideRays 光照背景 - 从左侧发金,让 About 跟 Hero 光线有区别 */}
+      <SideRays
+        speed={2}
+        rayColor1="#FFD700"
+        rayColor2="#7BB8FF"
+        intensity={2.5}
+        spread={2.2}
+        origin="bottom-left"
+        tilt={15}
+        saturation={1.8}
+        blend={0.4}
+        falloff={1.5}
+        opacity={0.9}
+      />
       <div className="max-w-6xl mx-auto">
         <div className="bg-[#101010] rounded-2xl md:rounded-[2rem] p-6 sm:p-10 md:p-16 text-center">
           <motion.span

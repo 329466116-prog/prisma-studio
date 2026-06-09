@@ -16,7 +16,7 @@ const HERO_SLOGAN_SUFFIX = '，探索无止境。”'
 
 export function Hero() {
   return (
-    <section className="h-screen w-full p-4 md:p-6">
+    <section className="snap-section h-screen w-full p-4 md:p-6">
       <div className="relative h-full w-full rounded-2xl md:rounded-[2rem] overflow-hidden">
         {/* Background video */}
         <video
