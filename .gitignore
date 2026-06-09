@@ -44,3 +44,4 @@ build
 # Local dev scripts (don't ship with repo)
 scripts-shot.mjs
 scripts-shot.mjs
+snap-shiny.mjs

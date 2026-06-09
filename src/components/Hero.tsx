@@ -1,13 +1,15 @@
 import { motion } from 'framer-motion'
 import { ArrowRight } from 'lucide-react'
 import { Navbar } from './Navbar'
-import { WordsPullUp } from './WordsPullUp'
+import { ShinyText } from './ShinyText'
 
 const HERO_VIDEO =
   'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260405_170732_8a9ccda6-5cff-4628-b164-059c500a2b41.mp4'
 
 const HERO_DESCRIPTION =
   '电力 AI 工程师 · 持续学习的工作流手艺人。擅长把繁琐流程用脚本和工具链串起来，PPT 制作 / 信息图设计 / 自动化工作流 / 偶尔写写代码。'
+
+const HERO_SLOGAN = '我是钱多多，探索无止境。'
 
 export function Hero() {
   return (
@@ -35,12 +37,17 @@ export function Hero() {
         {/* Content (bottom-aligned) */}
         <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-6 md:p-8 z-20">
           <div className="grid grid-cols-12 gap-4 sm:gap-6 items-end">
-            {/* Left 8 cols: heading */}
+            {/* Left 8 cols: ShinyText heading (no longer the giant Prisma*) */}
             <div className="col-span-12 sm:col-span-8">
-              <WordsPullUp
-                text="Prisma"
-                className="text-[26vw] sm:text-[24vw] md:text-[22vw] lg:text-[20vw] xl:text-[19vw] 2xl:text-[20vw] font-medium leading-[0.85] tracking-[-0.07em] text-[#E1E0CC]"
-                showAsterisk
+              <ShinyText
+                text={HERO_SLOGAN}
+                speed={2.5}
+                color="#6a6a6a"
+                shineColor="#FFFFFF"
+                spread={60}
+                delay={0.5}
+                direction="left"
+                className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-medium leading-[1.1] tracking-tight"
               />
             </div>
 
