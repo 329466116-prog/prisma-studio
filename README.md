@@ -39,8 +39,15 @@ prisma-studio/
 ```bash
 cd /Volumes/driver/opdir/projects/prisma-studio
 npm install         # 首次需要（5s，复用 react-ppt 缓存）
-npm run dev         # http://localhost:5173/
+npm run dev         # → http://localhost:5173/，HMR 热重载（改完文件自动刷新）
 ```
+
+> **修改 → 预览 → 满意后再 push** 的标准流程：
+> 1. `npm run dev`（后台跑）
+> 2. 改 `src/components/*.tsx` 或 `index.html`
+> 3. **改完文件浏览器自动刷新**（Vite HMR 魔法，不用 F5）
+> 4. 满意后 `git add . && git commit -m "..." && git push`
+>    ⚠️ **Cloudflare Pages 部署必须设 `npm run build` + 输出 `dist`**（详见下面托管步骤）
 
 ## 🏗️ 打包构建
 
