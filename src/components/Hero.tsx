@@ -2,6 +2,7 @@ import { motion } from 'framer-motion'
 import { ArrowRight } from 'lucide-react'
 import { Navbar } from './Navbar'
 import { ShinyText } from './ShinyText'
+import { SideRays } from './SideRays'
 
 const HERO_VIDEO =
   'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260405_170732_8a9ccda6-5cff-4628-b164-059c500a2b41.mp4'
@@ -27,11 +28,26 @@ export function Hero() {
           className="absolute inset-0 w-full h-full object-cover"
         />
 
-        {/* Gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/60 pointer-events-none" />
+        {/* Gradient overlay - 调暗一点,让 SideRays 更明显 */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-black/70 pointer-events-none" />
 
         {/* Noise overlay */}
         <div className="noise-overlay opacity-[0.7] mix-blend-overlay" />
+
+        {/* SideRays 光照背景 (OGL WebGL) */}
+        <SideRays
+          speed={2.5}
+          rayColor1="#FFD700"
+          rayColor2="#96c8ff"
+          intensity={3.5}
+          spread={2.5}
+          origin="top-right"
+          tilt={0}
+          saturation={2}
+          blend={0.5}
+          falloff={1.4}
+          opacity={1.0}
+        />
 
         {/* Navbar */}
         <Navbar />
