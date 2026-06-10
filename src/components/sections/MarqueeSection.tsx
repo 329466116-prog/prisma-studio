@@ -8,7 +8,6 @@ const ALL_GIFS = [
   "https://motionsites.ai/assets/hero-asme-preview-B_nGDnTP.gif",
   "https://motionsites.ai/assets/hero-transform-data-preview-Cx5OU29N.gif",
   "https://motionsites.ai/assets/hero-vitara-preview-Cjz2QYyU.gif",
-  "https://motionsites.ai/assets/hero-terra-preview-BFjrCr7T.gif",
   "https://motionsites.ai/assets/hero-skyelite-preview-DHaZIgUv.gif",
   "https://motionsites.ai/assets/hero-aethera-preview-DknSlcTa.gif",
   "https://motionsites.ai/assets/hero-designpro-preview-D8c5_een.gif",
@@ -29,8 +28,9 @@ export default function MarqueeSection() {
   const [offset, setOffset] = useState(0);
 
   // Tripled for seamless scrolling
-  const row1Gifs = ALL_GIFS.slice(0, 11);
-  const row2Gifs = ALL_GIFS.slice(11);
+  // 20 张分两行：row1 = 10, row2 = 10（hero-terra 国内访问不到已移除）
+  const row1Gifs = ALL_GIFS.slice(0, 10);
+  const row2Gifs = ALL_GIFS.slice(10);
   const row1Tripled = [...row1Gifs, ...row1Gifs, ...row1Gifs];
   const row2Tripled = [...row2Gifs, ...row2Gifs, ...row2Gifs];
 
