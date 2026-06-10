@@ -14,7 +14,7 @@ const DECORATIVE_IMAGES = {
 };
 
 const ABOUT_TEXT =
-  "With more than five years of experience in design and engineering, i focus on building intelligent products that bridge aesthetics, data, and user experience. I enjoy working with teams that aim to ship thoughtful, production-grade work — and to leave a clear, memorable mark in their space. Let's build something that lasts.";
+  "本人拥有五年以上设计与工程经验，专注于构建融合美学、数据与用户体验的智能产品。期待与志同道合的团队合作，打造可落地、有质感的工程项目——留下清晰而持久的印记。让我们一起，做出经得起时间检验的作品。";
 
 export default function AboutSection() {
   return (
@@ -65,15 +65,13 @@ export default function AboutSection() {
             className="hero-heading font-black uppercase leading-none tracking-tight"
             style={{ fontSize: "clamp(3rem, 12vw, 160px)" }}
           >
-            About me
+            关于我
           </h2>
         </FadeIn>
 
         <AnimatedText
           text={ABOUT_TEXT}
-          className="text-[#D7E2EA] font-medium leading-relaxed max-w-[560px]"
-          // font-size handled via class on each child would be ideal,
-          // but we apply the clamp via the parent style for simplicity
+          className="text-[#D7E2EA] font-medium leading-relaxed max-w-[560px] tracking-wide"
         />
       </div>
 
@@ -82,8 +80,6 @@ export default function AboutSection() {
         <ContactButton href="#contact" />
       </div>
 
-      {/* Apply font-size via inline style on the AnimatedText container
-          (since the AnimatedText renders a <p> with className) */}
       <style>{`
         section#about-me p {
           font-size: clamp(1rem, 2vw, 1.35rem);

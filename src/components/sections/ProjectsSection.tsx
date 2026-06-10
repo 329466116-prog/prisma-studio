@@ -24,13 +24,15 @@ function ProjectCard({ project, index, scrollYProgress }: ProjectCardProps) {
   const scale = useTransform(scrollYProgress, [index * 0.25, 1], [1, targetScale]);
 
   return (
-    <div
-      className="h-[85vh] w-full sticky"
-      style={{ top: `${index * 28 + 96}px` }}
-    >
+    <div className="h-screen w-full relative">
       <motion.div
-        style={{ scale }}
-        className="w-full h-full rounded-[40px] sm:rounded-[50px] md:rounded-[60px] border-2 border-[#D7E2EA] bg-[#0C0C0C] p-4 sm:p-6 md:p-8 flex flex-col justify-between origin-top"
+        style={{
+          scale,
+          position: "sticky",
+          top: `${(index + 1) * 28}px`,
+          height: "85vh",
+        }}
+        className="w-full rounded-[40px] sm:rounded-[50px] md:rounded-[60px] border-2 border-[#D7E2EA] bg-[#0C0C0C] p-4 sm:p-6 md:p-8 flex flex-col justify-between origin-top"
       >
         {/* Top row: number + category + name + Live button */}
         <div className="flex items-start justify-between gap-4">
@@ -108,7 +110,7 @@ export default function ProjectsSection() {
           className="hero-heading font-black uppercase text-center leading-none tracking-tight"
           style={{ fontSize: "clamp(3rem, 12vw, 160px)" }}
         >
-          Project
+          项目
         </h2>
       </FadeIn>
 

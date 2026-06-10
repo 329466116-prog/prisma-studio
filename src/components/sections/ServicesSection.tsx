@@ -12,7 +12,7 @@ export default function ServicesSection() {
           className="text-[#0C0C0C] font-black uppercase text-center"
           style={{ fontSize: "clamp(3rem, 12vw, 160px)" }}
         >
-          Services
+          服务
         </h2>
       </FadeIn>
 

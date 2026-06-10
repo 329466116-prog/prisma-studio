@@ -10,7 +10,7 @@ interface ContactButtonProps {
  * Used in Hero section (bottom-right) and About section.
  */
 export default function ContactButton({
-  label = "Contact Me",
+  label = "联系我",
   onClick,
   href,
   className = "",

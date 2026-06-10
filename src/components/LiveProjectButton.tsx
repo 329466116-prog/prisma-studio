@@ -10,7 +10,7 @@ interface LiveProjectButtonProps {
  * Used in Projects section cards.
  */
 export default function LiveProjectButton({
-  label = "Live Project",
+  label = "查看项目",
   onClick,
   href,
   className = "",
