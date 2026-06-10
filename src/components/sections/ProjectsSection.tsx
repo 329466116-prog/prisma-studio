@@ -13,43 +13,28 @@ interface ProjectCardProps {
 }
 
 /**
- * ProjectCard: classic sticky-stacking card (还原 commit 4cb8b1f 的物理感).
- *
- * 物理：
- * - 每张卡 h-screen (100vh) 容器
- * - 卡内 motion.div sticky top: (i+1)*28px, height: 85vh
- * - scale 微缩（缩放系数 0.015，温和）：卡 0 缩 6% → 卡 4 缩 0%
- *
- * 视觉效果（5 张卡）：
- * - 滚动 0：卡 0 满屏
- * - 滚动到 ~99vh：卡 1 距 viewport 顶 60px → sticky 触发在 56px
- *   → 此时卡 0 还在视口（sticky 28px），卡 1 覆盖卡 0 上 28px（错位 stacking）
- *   → 卡 0 露 28px 底部
- * - 滚动到 ~200vh：卡 1 滚出，卡 2 sticky 触发
- * - ...
- *
- * 这就是第一次构建 3 张卡时的视觉。
+ * ProjectCard: classic sticky-stacking card (jack original spec).
+ * - Container: h-[85vh], position: sticky, top: ${index * 28 + 96}px
+ * - Inner: motion.div with scale transform
+ * - Scale: targetScale = 1 - (totalCards - 1 - index) * 0.03
+ * - Scale range: [index * 0.25, 1] (3 cards evenly distributed)
  */
 function ProjectCard({ project, index, scrollYProgress }: ProjectCardProps) {
-  // 温和缩放：5 张 → 卡 0 缩 6%, 卡 4 不缩
-  const targetScale = 1 - (TOTAL_CARDS - 1 - index) * 0.015;
-  // 5 张均分起点：index * 0.2
+  const targetScale = 1 - (TOTAL_CARDS - 1 - index) * 0.03;
   const scale = useTransform(
     scrollYProgress,
-    [index * 0.2, 1],
+    [index * 0.25, 1],
     [1, targetScale]
   );
 
   return (
-    <div className="h-screen w-full relative">
+    <div
+      className="h-[85vh] w-full sticky"
+      style={{ top: `${index * 28 + 96}px` }}
+    >
       <motion.div
-        style={{
-          scale,
-          position: "sticky",
-          top: `${(index + 1) * 28}px`,
-          height: "85vh",
-        }}
-        className="w-full rounded-[40px] sm:rounded-[50px] md:rounded-[60px] border-2 border-[#D7E2EA] bg-[#0C0C0C] p-4 sm:p-6 md:p-8 flex flex-col justify-between origin-top"
+        style={{ scale }}
+        className="w-full h-full rounded-[40px] sm:rounded-[50px] md:rounded-[60px] border-2 border-[#D7E2EA] bg-[#0C0C0C] p-4 sm:p-6 md:p-8 flex flex-col justify-between origin-top"
       >
         {/* Top row: number + category + name + Live button */}
         <div className="flex items-start justify-between gap-4">
@@ -72,7 +57,7 @@ function ProjectCard({ project, index, scrollYProgress }: ProjectCardProps) {
               </h3>
             </div>
           </div>
-          <LiveProjectButton href="#contact" className="shrink-0" />
+          <LiveProjectButton href="#联系" className="shrink-0" />
         </div>
 
         {/* Bottom row: image grid */}
@@ -120,8 +105,7 @@ export default function ProjectsSection() {
     <section
       ref={sectionRef}
       id="projects"
-      className="w-full bg-[#0C0C0C] rounded-t-[40px] sm:rounded-[50px] md:rounded-[60px] -mt-10 sm:-mt-12 md:-mt-14 z-10 relative pt-20 sm:pt-24 md:pt-32 pb-10"
-      style={{ height: `${TOTAL_CARDS * 100}vh` }}
+      className="w-full bg-[#0C0C0C] rounded-t-[40px] sm:rounded-t-[50px] md:rounded-[60px] -mt-10 sm:-mt-12 md:-mt-14 z-10 relative pt-20 sm:pt-24 md:pt-32 pb-10"
     >
       <FadeIn delay={0} y={40}>
         <h2
@@ -132,7 +116,7 @@ export default function ProjectsSection() {
         </h2>
       </FadeIn>
 
-      {/* Cards container - 5 cards × 100vh = 500vh total scroll */}
+      {/* 3 cards × 85vh = 255vh sticky-stacking */}
       <div className="relative w-full mt-16 sm:mt-20 md:mt-28">
         {PROJECTS.map((project, index) => (
           <ProjectCard
