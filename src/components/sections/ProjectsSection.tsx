@@ -20,10 +20,15 @@ interface ProjectCardProps {
  * - Scale range: [index * 0.25, 1] (3 cards evenly distributed)
  */
 function ProjectCard({ project, index, scrollYProgress }: ProjectCardProps) {
-  const targetScale = 1 - (TOTAL_CARDS - 1 - index) * 0.03;
+  // 总缩量固定 6%，按 N 张均分 → 不论 3/4/5 张卡 0 都缩 6%
+  // (N-1-i) / (N-1) 把 [0, N-1] 映射到 [1, 0] → 步进缩放
+  const shrinkStep = 0.06 / Math.max(TOTAL_CARDS - 1, 1);
+  const targetScale = 1 - shrinkStep * (TOTAL_CARDS - 1 - index);
+  // scale 区间按 N 张均分起点：index / (N-1)
+  const startProgress = index / Math.max(TOTAL_CARDS - 1, 1);
   const scale = useTransform(
     scrollYProgress,
-    [index * 0.25, 1],
+    [startProgress, 1],
     [1, targetScale]
   );
 
