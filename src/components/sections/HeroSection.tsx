@@ -111,6 +111,7 @@ function FeaturesGrid() {
           >
             <BorderGlow
               borderRadius={20}
+              backgroundColor="#120F17"
               glowColor="45 90 70"
               glowIntensity={1.0}
               coneSpread={25}
@@ -135,7 +136,7 @@ function VideoCard({ feature }: { feature: typeof FEATURES[number] }) {
   return (
     <div
       className="relative w-full h-[480px] rounded-[20px] overflow-hidden flex flex-col"
-      style={{ background: "#212121" }}
+      style={{ background: "#120F17" }}
     >
       <video
         src={feature.videoUrl}
@@ -160,7 +161,7 @@ function ChecklistCard({ feature }: { feature: typeof FEATURES[number] }) {
   return (
     <div
       className="w-full h-[480px] rounded-[20px] p-5 sm:p-6 md:p-7 flex flex-col gap-4 sm:gap-5"
-      style={{ background: "#212121" }}
+      style={{ background: "#120F17" }}
     >
       <h3 className="text-[#E1E0CC] text-lg sm:text-xl md:text-2xl font-normal">
         {feature.title}
