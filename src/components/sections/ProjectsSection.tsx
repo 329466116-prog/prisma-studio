@@ -13,95 +13,99 @@ interface ProjectCardProps {
 }
 
 /**
- * ProjectCard: stacking card driven by scrollYProgress.
- * - y transform: 100% (below container) → 0% (in container top), in [0, (i+1)/N] range
- * - scale transform: 1 → targetScale = 1 - (N-1-i)*0.03, in same range
- * - top offset: index * 28px (cards peek out of each other)
- * - z-index: index (later cards on top)
+ * ProjectCard: classic sticky-stacking card (还原 commit 4cb8b1f 的物理感).
  *
- * Sticky physics alone cannot produce a "next card presses down on previous" effect
- * for more than ~28px (the sticky_top offset). We bypass sticky entirely and use
- * framer-motion transforms driven by section-level scrollYProgress.
+ * 物理：
+ * - 每张卡 h-screen (100vh) 容器
+ * - 卡内 motion.div sticky top: (i+1)*28px, height: 85vh
+ * - scale 微缩（缩放系数 0.015，温和）：卡 0 缩 6% → 卡 4 缩 0%
+ *
+ * 视觉效果（5 张卡）：
+ * - 滚动 0：卡 0 满屏
+ * - 滚动到 ~99vh：卡 1 距 viewport 顶 60px → sticky 触发在 56px
+ *   → 此时卡 0 还在视口（sticky 28px），卡 1 覆盖卡 0 上 28px（错位 stacking）
+ *   → 卡 0 露 28px 底部
+ * - 滚动到 ~200vh：卡 1 滚出，卡 2 sticky 触发
+ * - ...
+ *
+ * 这就是第一次构建 3 张卡时的视觉。
  */
 function ProjectCard({ project, index, scrollYProgress }: ProjectCardProps) {
-  const total = TOTAL_CARDS;
-  const targetScale = 1 - (total - 1 - index) * 0.03;
-  const endProgress = (index + 1) / total;
-
-  // y: card rises from below the sticky container to the container top
-  const y = useTransform(scrollYProgress, [0, endProgress], ["100%", "0%"]);
-
-  // scale: card scales down during its rise, settling at targetScale
-  const scale = useTransform(scrollYProgress, [0, endProgress], [1, targetScale]);
+  // 温和缩放：5 张 → 卡 0 缩 6%, 卡 4 不缩
+  const targetScale = 1 - (TOTAL_CARDS - 1 - index) * 0.015;
+  // 5 张均分起点：index * 0.2
+  const scale = useTransform(
+    scrollYProgress,
+    [index * 0.2, 1],
+    [1, targetScale]
+  );
 
   return (
-    <motion.div
-      style={{
-        y,
-        scale,
-        position: "absolute",
-        top: `${index * 28}px`,
-        left: 0,
-        right: 0,
-        height: "85vh",
-        zIndex: index,
-      }}
-      className="w-full rounded-[40px] sm:rounded-[50px] md:rounded-[60px] border-2 border-[#D7E2EA] bg-[#0C0C0C] p-4 sm:p-6 md:p-8 flex flex-col justify-between origin-top"
-    >
-      {/* Top row: number + category + name + Live button */}
-      <div className="flex items-start justify-between gap-4">
-        <div className="flex items-start gap-4 sm:gap-6 md:gap-8">
-          <span
-            className="hero-heading font-black leading-none"
-            style={{ fontSize: "clamp(3rem, 10vw, 140px)" }}
-          >
-            {String(project.id).padStart(2, "0")}
-          </span>
-          <div className="pt-2 sm:pt-4 md:pt-6">
-            <p className="text-[#D7E2EA]/50 font-light uppercase tracking-widest text-xs sm:text-sm">
-              {project.category}
-            </p>
-            <h3
-              className="text-[#D7E2EA] font-medium uppercase mt-1 sm:mt-2"
-              style={{ fontSize: "clamp(1rem, 2.2vw, 2.1rem)" }}
+    <div className="h-screen w-full relative">
+      <motion.div
+        style={{
+          scale,
+          position: "sticky",
+          top: `${(index + 1) * 28}px`,
+          height: "85vh",
+        }}
+        className="w-full rounded-[40px] sm:rounded-[50px] md:rounded-[60px] border-2 border-[#D7E2EA] bg-[#0C0C0C] p-4 sm:p-6 md:p-8 flex flex-col justify-between origin-top"
+      >
+        {/* Top row: number + category + name + Live button */}
+        <div className="flex items-start justify-between gap-4">
+          <div className="flex items-start gap-4 sm:gap-6 md:gap-8">
+            <span
+              className="hero-heading font-black leading-none"
+              style={{ fontSize: "clamp(3rem, 10vw, 140px)" }}
             >
-              {project.name}
-            </h3>
+              {String(project.id).padStart(2, "0")}
+            </span>
+            <div className="pt-2 sm:pt-4 md:pt-6">
+              <p className="text-[#D7E2EA]/50 font-light uppercase tracking-widest text-xs sm:text-sm">
+                {project.category}
+              </p>
+              <h3
+                className="text-[#D7E2EA] font-medium uppercase mt-1 sm:mt-2"
+                style={{ fontSize: "clamp(1rem, 2.2vw, 2.1rem)" }}
+              >
+                {project.name}
+              </h3>
+            </div>
+          </div>
+          <LiveProjectButton href="#contact" className="shrink-0" />
+        </div>
+
+        {/* Bottom row: image grid */}
+        <div className="flex gap-3 sm:gap-4 md:gap-5 w-full mt-4 sm:mt-6">
+          {/* Left column: 2 stacked images (40% width) */}
+          <div className="flex flex-col gap-3 sm:gap-4 md:gap-5" style={{ width: "40%" }}>
+            <img
+              src={project.imageCol1Top}
+              alt=""
+              loading="lazy"
+              className="w-full object-cover rounded-[40px] sm:rounded-[50px] md:rounded-[60px]"
+              style={{ height: "clamp(130px, 16vw, 230px)" }}
+            />
+            <img
+              src={project.imageCol1Bottom}
+              alt=""
+              loading="lazy"
+              className="w-full object-cover rounded-[40px] sm:rounded-[50px] md:rounded-[60px]"
+              style={{ height: "clamp(160px, 22vw, 340px)" }}
+            />
+          </div>
+          {/* Right column: 1 tall image (60% width) */}
+          <div style={{ width: "60%" }} className="flex">
+            <img
+              src={project.imageCol2Tall}
+              alt=""
+              loading="lazy"
+              className="w-full h-full object-cover rounded-[40px] sm:rounded-[50px] md:rounded-[60px]"
+            />
           </div>
         </div>
-        <LiveProjectButton href="#contact" className="shrink-0" />
-      </div>
-
-      {/* Bottom row: image grid */}
-      <div className="flex gap-3 sm:gap-4 md:gap-5 w-full mt-4 sm:mt-6">
-        {/* Left column: 2 stacked images (40% width) */}
-        <div className="flex flex-col gap-3 sm:gap-4 md:gap-5" style={{ width: "40%" }}>
-          <img
-            src={project.imageCol1Top}
-            alt=""
-            loading="lazy"
-            className="w-full object-cover rounded-[40px] sm:rounded-[50px] md:rounded-[60px]"
-            style={{ height: "clamp(130px, 16vw, 230px)" }}
-          />
-          <img
-            src={project.imageCol1Bottom}
-            alt=""
-            loading="lazy"
-            className="w-full object-cover rounded-[40px] sm:rounded-[50px] md:rounded-[60px]"
-            style={{ height: "clamp(160px, 22vw, 340px)" }}
-          />
-        </div>
-        {/* Right column: 1 tall image (60% width) */}
-        <div style={{ width: "60%" }} className="flex">
-          <img
-            src={project.imageCol2Tall}
-            alt=""
-            loading="lazy"
-            className="w-full h-full object-cover rounded-[40px] sm:rounded-[50px] md:rounded-[60px]"
-          />
-        </div>
-      </div>
-    </motion.div>
+      </motion.div>
+    </div>
   );
 }
 
@@ -116,7 +120,7 @@ export default function ProjectsSection() {
     <section
       ref={sectionRef}
       id="projects"
-      className="w-full bg-[#0C0C0C] rounded-t-[40px] sm:rounded-t-[50px] md:rounded-[60px] -mt-10 sm:-mt-12 md:-mt-14 z-10 relative pt-20 sm:pt-24 md:pt-32 pb-10"
+      className="w-full bg-[#0C0C0C] rounded-t-[40px] sm:rounded-[50px] md:rounded-[60px] -mt-10 sm:-mt-12 md:-mt-14 z-10 relative pt-20 sm:pt-24 md:pt-32 pb-10"
       style={{ height: `${TOTAL_CARDS * 100}vh` }}
     >
       <FadeIn delay={0} y={40}>
@@ -128,8 +132,8 @@ export default function ProjectsSection() {
         </h2>
       </FadeIn>
 
-      {/* Sticky container - holds ALL cards in viewport while scrolling through the section */}
-      <div className="sticky top-0 h-screen w-full mt-16 sm:mt-20 md:mt-28">
+      {/* Cards container - 5 cards × 100vh = 500vh total scroll */}
+      <div className="relative w-full mt-16 sm:mt-20 md:mt-28">
         {PROJECTS.map((project, index) => (
           <ProjectCard
             key={project.id}
