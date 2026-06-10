@@ -25,13 +25,12 @@ export default function HeroSection() {
         </nav>
       </FadeIn>
 
-      {/* Hero Heading */}
+      {/* Hero Heading — 整句用 ShinyText 金色 + 白光扫过 */}
       <FadeIn delay={0.15} y={40} className="w-full">
         <div className="w-full overflow-hidden mt-20 sm:mt-24 md:mt-16">
           <h1 className="font-black tracking-tight leading-none whitespace-nowrap w-full text-[8vw] sm:text-[9vw] md:text-[10vw] lg:text-[11vw]">
-            <span className="hero-heading">Hi，我是</span>
             <ShinyText
-              text="钱多多"
+              text="Hi，我是钱多多"
               color="#ffd700"
               shineColor="#ffffff"
               speed={3}
