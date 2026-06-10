@@ -87,7 +87,14 @@ function FeaturesGrid() {
   return (
     <div
       ref={containerRef}
-      className="w-full max-w-7xl mx-auto px-5 sm:px-8 md:px-10 mt-8 sm:mt-10 md:mt-12 mb-12"
+      /* self-center：父级 section.flex.flex-col 默认 align-items: stretch，
+         会把子级拉满 1440px 让 mx-auto 失效；self-center 让 cross-axis 居中
+         （4 张卡视觉上居中到 viewport 中间）
+
+         max-w-[min(80rem,100%)]：max-w-7xl=1280px 在 1024 视口下 > viewport，
+         mx-auto 居中后左侧 128px 超出被 overflow-x:clip 裁掉，导致 4 张卡贴左。
+         min(80rem, 100%) 让小屏退化到 100% 宽度避免溢出。 */
+      className="self-center w-full max-w-[min(80rem,100%)] px-5 sm:px-8 md:px-10 mt-8 sm:mt-10 md:mt-12 mb-12"
     >
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-2 md:gap-3">
         {FEATURES.map((feature, i) => (

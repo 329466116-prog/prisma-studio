@@ -136,6 +136,8 @@
   display: flex;
   flex-direction: column;
   position: relative;
-  overflow: auto;
+  /* hidden 而非 auto：外发光层 .edge-light 用 inset: -40px 撑出滚动区域，
+     内容溢出时不要出现滚动条，由父级 .border-glow-card 负责裁切 */
+  overflow: hidden;
   z-index: 1;
 }

@@ -2,15 +2,24 @@
 
 /* ============================================
    GLOBAL RESET
+   ⚠️ 重要：必须包进 @layer base！
+   Tailwind 4 的 utility class 都在 @layer utilities 里，优先级按 layer 排序：
+     @layer base < @layer components < @layer utilities
+   而 layer 外的普通 CSS 规则会压过所有 layer 内的规则！
+   如果 * { padding: 0 } 等重置写在 layer 外，会反向压过 .px-5 / .p-6
+   等所有 padding utility，导致全站 padding 失效。
+   （症状：Services 段变空白、Projects 卡 padding=0、Features 4 卡贴边）
    ============================================ */
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-  font-family: "Kanit", -apple-system, BlinkMacSystemFont, "Segoe UI",
-    Roboto, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@layer base {
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: "Kanit", -apple-system, BlinkMacSystemFont, "Segoe UI",
+      Roboto, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
 }
 
 html, body, #root {
