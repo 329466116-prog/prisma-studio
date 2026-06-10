@@ -5,6 +5,7 @@ import FadeIn from "../FadeIn";
 import ContactButton from "../ContactButton";
 import ShinyText from "../ShinyText";
 import BorderGlow from "../BorderGlow";
+import GradientText from "../GradientText";
 import { FEATURES } from "../data/features";
 
 const NAV_LINKS = ["关于", "服务", "项目", "联系"];
@@ -47,23 +48,30 @@ export default function HeroSection() {
         </div>
       </FadeIn>
 
+      {/* 副标题（h1 下方居中，GradientText 渐变流动）
+          — 颜色: 银 #D7E2EA → 金 #FFD700 → 橙金 #F4A460 → 金 → 银（前后一致，smooth loop）
+          — 动画: yoyo 模式 6 秒一周期，从右向左再从左向右流动
+          — 居中: 父级 text-center + GradientText 自身 margin auto + max-width: fit-content */}
+      <FadeIn delay={0.3} y={20} className="w-full text-center mt-4 sm:mt-5 md:mt-6">
+        <GradientText
+          colors={["#D7E2EA", "#FFD700", "#F4A460", "#FFD700", "#D7E2EA"]}
+          animationSpeed={6}
+          direction="horizontal"
+          yoyo={true}
+          className="font-light tracking-wide leading-snug"
+        >
+          <span style={{ fontSize: "clamp(0.75rem, 1.4vw, 1.5rem)" }}>
+            电力 AI 行业工程师，致力于打造智能产品
+          </span>
+        </GradientText>
+      </FadeIn>
+
       {/* Features 4 张大卡（h1 下方居中）— 参考 prisma-studio Features 段布局 */}
       <FeaturesGrid />
 
       {/* Bottom bar */}
-      <div className="mt-auto w-full flex items-end justify-between px-6 md:px-10 py-7 sm:py-8 md:py-10 relative z-20">
+      <div className="mt-auto w-full flex items-end justify-end px-6 md:px-10 py-7 sm:py-8 md:py-10 relative z-20">
         <FadeIn delay={0.7} y={20}>
-          <p
-            className="text-[#D7E2EA] font-light tracking-wide leading-snug"
-            style={{
-              fontSize: "clamp(0.75rem, 1.4vw, 1.5rem)",
-              maxWidth: "min(260px, 50vw)",
-            }}
-          >
-            电力 AI 行业工程师，致力于打造智能产品
-          </p>
-        </FadeIn>
-        <FadeIn delay={0.85} y={20}>
           <ContactButton href="#联系" />
         </FadeIn>
       </div>
