@@ -1,15 +1,17 @@
-import { About } from './components/About'
-import { Features } from './components/Features'
-import { Hero } from './components/Hero'
+import HeroSection from "./components/sections/HeroSection";
+import MarqueeSection from "./components/sections/MarqueeSection";
+import AboutSection from "./components/sections/AboutSection";
+import ServicesSection from "./components/sections/ServicesSection";
+import ProjectsSection from "./components/sections/ProjectsSection";
 
-function App() {
+export default function App() {
   return (
-    <div className="bg-black min-h-screen w-full">
-      <Hero />
-      <About />
-      <Features />
-    </div>
-  )
+    <main className="app-wrapper">
+      <HeroSection />
+      <MarqueeSection />
+      <AboutSection />
+      <ServicesSection />
+      <ProjectsSection />
+    </main>
+  );
 }
-
-export default App

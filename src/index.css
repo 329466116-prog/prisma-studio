@@ -1,62 +1,80 @@
 @import "tailwindcss";
 
-@theme {
-  /* === COLORS === */
-  --color-primary: #DEDBC8;        /* warm cream (Tailwind primary) */
-  --color-primary-soft: #E1E0CC;   /* slightly different shade used inline */
-
-  /* === FONTS === */
-  --font-sans: "Almarai", -apple-system, BlinkMacSystemFont, "Segoe UI",
-    Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-  --font-serif: "Instrument Serif", serif;
-}
-
-/* === GLOBAL === */
+/* ============================================
+   GLOBAL RESET
+   ============================================ */
 * {
-  font-family: var(--font-sans);
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: "Kanit", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Roboto, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-html, body {
-  background: #000000;
-  color: #E1E0CC;
-  margin: 0;
-  padding: 0;
-  overflow-x: hidden;
+html, body, #root {
+  background: #0C0C0C;
+  color: #D7E2EA;
+  min-height: 100vh;
 }
 
-/* === SCROLL SNAP: 一次滚轮=1 个 section, 3 段平滑滑动 === */
 html {
-  scroll-snap-type: y mandatory;
-  /* 不用 scroll-behavior: smooth,会和 mandatory snap 冲突导致偏移 */
+  scroll-behavior: smooth;
 }
 
-.snap-section {
-  scroll-snap-align: start;
-  scroll-snap-stop: always;
+/* ============================================
+   HERO HEADING GRADIENT TEXT
+   ============================================ */
+.hero-heading {
+  background: linear-gradient(180deg, #646973 0%, #BBCCD7 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
 }
 
-/* === SMOOTH SCROLL 偏移: anchor 链接不顶到屏幕边缘 === */
-.snap-section[id] {
-  scroll-margin-top: 0;
+/* ============================================
+   MAIN WRAPPER
+   ============================================ */
+.app-wrapper {
+  width: 100%;
+  min-height: 100vh;
+  overflow-x: clip;
+  background: #0C0C0C;
 }
 
-/* === SVG NOISE TEXTURES (data URI inline) === */
-
-/* Heavy noise overlay for hero video (opacity 0.7) */
-.noise-overlay {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.9'/></svg>");
-  background-size: 300px 300px;
-  background-repeat: repeat;
+/* ============================================
+   UTILITY: MARQUEE TILE SHADOW
+   ============================================ */
+.marquee-tile {
+  will-change: transform;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
 }
 
-/* Subtle background noise for Features section (opacity 0.15) */
-.bg-noise {
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.6'/></svg>");
-  background-size: 300px 300px;
-  background-repeat: repeat;
+/* ============================================
+   SCROLLBAR (subtle, dark)
+   ============================================ */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #0C0C0C;
+}
+::-webkit-scrollbar-thumb {
+  background: #2a2a2a;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #3a3a3a;
+}
+
+/* ============================================
+   SELECTION COLOR
+   ============================================ */
+::selection {
+  background: #D7E2EA;
+  color: #0C0C0C;
 }
