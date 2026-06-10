@@ -30,8 +30,8 @@ export default function HeroSection() {
 
       {/* Hero Heading */}
       <FadeIn delay={0.15} y={40} className="w-full">
-        <div className="w-full overflow-hidden mt-6 sm:mt-4 md:-mt-5">
-          <h1 className="hero-heading font-black tracking-tight leading-none whitespace-nowrap w-full text-[14vw] sm:text-[15vw] md:text-[16vw] lg:text-[17.5vw]">
+        <div className="w-full overflow-hidden mt-20 sm:mt-24 md:mt-16">
+          <h1 className="hero-heading font-black tracking-tight leading-none whitespace-nowrap w-full text-[10vw] sm:text-[11vw] md:text-[12vw] lg:text-[13vw]">
             Hi，我是钱多多
           </h1>
         </div>
