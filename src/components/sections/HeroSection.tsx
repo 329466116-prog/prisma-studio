@@ -72,11 +72,12 @@ export default function HeroSection() {
 }
 
 /**
- * FeaturesGrid: 4 张大卡 grid
- * - Card 1: 视频背景 + 底部文字
+ * FeaturesGrid: 4 张大卡 grid（完全参照 prisma-studio Features 段布局）
+ * - Card 1: 视频背景 + 底部文字（无 number）
  * - Card 2-4: checklist 格式（Check icon + 多个 items + "Learn more" link）
  * - 每张 BorderGlow 包裹，鼠标边缘跟踪发光
- * - 高度 h-[320px]（参考 prisma 480px，适中版）
+ * - 高度 h-[480px]（参考 prisma 段，去滚动条）
+ * - 4 张卡居中 grid + max-w-7xl mx-auto
  * - stagger 0.15s 入场动画
  */
 function FeaturesGrid() {
@@ -86,7 +87,7 @@ function FeaturesGrid() {
   return (
     <div
       ref={containerRef}
-      className="w-full max-w-7xl mx-auto px-5 sm:px-8 md:px-10 mt-8 sm:mt-10 md:mt-12"
+      className="w-full max-w-7xl mx-auto px-5 sm:px-8 md:px-10 mt-8 sm:mt-10 md:mt-12 mb-12"
     >
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-2 md:gap-3">
         {FEATURES.map((feature, i) => (
@@ -122,11 +123,11 @@ function FeaturesGrid() {
   );
 }
 
-/** VideoCard: full video background with bottom text */
+/** VideoCard: full video background with bottom text (no number) */
 function VideoCard({ feature }: { feature: typeof FEATURES[number] }) {
   return (
     <div
-      className="relative w-full h-[320px] rounded-[20px] overflow-hidden flex flex-col"
+      className="relative w-full h-[480px] rounded-[20px] overflow-hidden flex flex-col"
       style={{ background: "#212121" }}
     >
       <video
@@ -138,11 +139,8 @@ function VideoCard({ feature }: { feature: typeof FEATURES[number] }) {
         className="absolute inset-0 w-full h-full object-cover"
       />
       <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/60" />
-      <div className="relative z-10 p-5 flex flex-col h-full justify-between">
-        <p className="text-[#D7E2EA]/50 text-xs uppercase tracking-widest">
-          {feature.number}
-        </p>
-        <p className="text-[#E1E0CC] text-sm sm:text-base font-medium leading-tight">
+      <div className="relative z-10 p-6 flex flex-col h-full justify-end">
+        <p className="text-[#E1E0CC] text-sm sm:text-base font-normal leading-tight">
           {feature.description}
         </p>
       </div>
@@ -150,21 +148,18 @@ function VideoCard({ feature }: { feature: typeof FEATURES[number] }) {
   );
 }
 
-/** ChecklistCard: 4 个 checklist items + Learn more link */
+/** ChecklistCard: 标题 + 4 个 checklist items + Learn more link (no number) */
 function ChecklistCard({ feature }: { feature: typeof FEATURES[number] }) {
   return (
     <div
-      className="w-full h-[320px] rounded-[20px] p-5 sm:p-6 flex flex-col gap-4"
+      className="w-full h-[480px] rounded-[20px] p-5 sm:p-6 md:p-7 flex flex-col gap-4 sm:gap-5"
       style={{ background: "#212121" }}
     >
-      <p className="text-[#D7E2EA]/50 text-xs uppercase tracking-widest">
-        {feature.number}
-      </p>
-      <h3 className="text-[#E1E0CC] text-base sm:text-lg font-medium">
+      <h3 className="text-[#E1E0CC] text-lg sm:text-xl md:text-2xl font-normal">
         {feature.title}
       </h3>
       {feature.items && (
-        <ul className="flex-1 flex flex-col gap-2">
+        <ul className="flex-1 flex flex-col gap-2 sm:gap-3">
           {feature.items.map((item, j) => (
             <li
               key={j}
