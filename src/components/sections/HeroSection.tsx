@@ -46,9 +46,9 @@ export default function HeroSection() {
         initialLoadAnimation
       />
 
-      {/* Hero Heading */}
+      {/* Hero Heading — mt 加大避开 PillNav (PillNav 在 top:1em 高 42px, 结束在 58px) */}
       <FadeIn delay={0.15} y={40} className="w-full">
-        <div className="w-full overflow-hidden mt-12 sm:mt-14 md:mt-10">
+        <div className="w-full overflow-hidden mt-24 sm:mt-28 md:mt-24">
           <h1 className="font-black tracking-tight leading-none whitespace-nowrap w-full text-[8vw] sm:text-[9vw] md:text-[10vw] lg:text-[11vw]">
             <span className="text-white">Hi，我是</span>
             <ShinyText
