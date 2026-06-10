@@ -1,5 +1,6 @@
 import FadeIn from "../FadeIn";
 import ContactButton from "../ContactButton";
+import ShinyText from "../ShinyText";
 
 const NAV_LINKS = ["关于", "服务", "项目", "联系"];
 
@@ -27,8 +28,16 @@ export default function HeroSection() {
       {/* Hero Heading */}
       <FadeIn delay={0.15} y={40} className="w-full">
         <div className="w-full overflow-hidden mt-20 sm:mt-24 md:mt-16">
-          <h1 className="hero-heading font-black tracking-tight leading-none whitespace-nowrap w-full text-[10vw] sm:text-[11vw] md:text-[12vw] lg:text-[13vw]">
-            Hi，我是钱多多
+          <h1 className="font-black tracking-tight leading-none whitespace-nowrap w-full text-[8vw] sm:text-[9vw] md:text-[10vw] lg:text-[11vw]">
+            <span className="hero-heading">Hi，我是</span>
+            <ShinyText
+              text="钱多多"
+              color="#ffd700"
+              shineColor="#ffffff"
+              speed={3}
+              spread={120}
+              direction="right"
+            />
           </h1>
         </div>
       </FadeIn>
