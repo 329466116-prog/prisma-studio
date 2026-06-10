@@ -19,6 +19,10 @@ html, body, #root {
   min-height: 100vh;
 }
 
+#root {
+  position: relative;
+}
+
 html {
   scroll-behavior: smooth;
 }
@@ -41,7 +45,7 @@ html {
   width: 100%;
   min-height: 100vh;
   overflow-x: clip;
-  background: #0C0C0C;
+  background: transparent;
 }
 
 /* ============================================

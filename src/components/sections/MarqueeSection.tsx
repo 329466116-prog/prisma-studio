@@ -52,7 +52,6 @@ export default function MarqueeSection() {
       ref={sectionRef}
       id="services"
       className="w-full pt-24 sm:pt-32 md:pt-40 pb-10"
-      style={{ background: "#0C0C0C" }}
     >
       {/* Row 1 - moves right */}
       <div className="overflow-hidden mb-3">
