@@ -14,17 +14,23 @@ interface ProjectCardProps {
 
 /**
  * ProjectCard: sticky-stacking card with scale-down as you scroll past.
- * Scale: 1 - (totalCards - 1 - index) * 0.03
- * Top offset: index * 28px
+ * Each card has a 200vh container so the next card enters viewport BEFORE
+ * the current card leaves — this produces the stacking effect.
+ * Scale: 1 → targetScale over the card's [index/N, (index+1)/N] scroll slice.
  */
 function ProjectCard({ project, index, scrollYProgress }: ProjectCardProps) {
   const targetScale = 1 - (TOTAL_CARDS - 1 - index) * 0.03;
-  // The card scales down once you scroll past it
-  // Cards are stacked, so each starts scaling at a different scrollYProgress
-  const scale = useTransform(scrollYProgress, [index * 0.25, 1], [1, targetScale]);
+  // Each card scales down during its own slice of section scroll
+  const startScale = index / TOTAL_CARDS;
+  const endScale = (index + 1) / TOTAL_CARDS;
+  const scale = useTransform(
+    scrollYProgress,
+    [startScale, endScale],
+    [1, targetScale]
+  );
 
   return (
-    <div className="h-screen w-full relative">
+    <div className="h-[200vh] w-full relative">
       <motion.div
         style={{
           scale,
@@ -114,7 +120,7 @@ export default function ProjectsSection() {
         </h2>
       </FadeIn>
 
-      {/* Cards container - must be tall enough for all cards to scroll past */}
+      {/* Cards container - 5 cards × 200vh = 1000vh total scroll */}
       <div className="relative w-full mt-16 sm:mt-20 md:mt-28">
         {PROJECTS.map((project, index) => (
           <ProjectCard
