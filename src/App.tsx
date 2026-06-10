@@ -3,6 +3,7 @@ import MarqueeSection from "./components/sections/MarqueeSection";
 import AboutSection from "./components/sections/AboutSection";
 import ServicesSection from "./components/sections/ServicesSection";
 import ProjectsSection from "./components/sections/ProjectsSection";
+import ProjectsGridSection from "./components/sections/ProjectsGridSection";
 import LiquidEther from "./components/LiquidEther";
 
 export default function App() {
@@ -22,6 +23,7 @@ export default function App() {
       </div>
       <main className="app-wrapper relative z-10">
         <HeroSection />
+        <ProjectsGridSection />
         <MarqueeSection />
         <AboutSection />
         <ServicesSection />
