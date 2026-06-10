@@ -67,6 +67,49 @@ html {
 }
 
 /* ============================================
+   MARQUEE: 自动循环跑马灯 (Thu 00:35)
+   — 纯 CSS @keyframes，GPU 加速，不依赖 scroll
+   — doubled 列表（[...imgs, ...imgs]）+ translateX 0%→-50% 无缝循环
+   — 60s 一周期，足够慢
+   — hover 暂停（用户专注查看时定住）
+   ============================================ */
+.marquee-track {
+  display: flex;
+  will-change: transform;
+  width: max-content;
+}
+
+@keyframes marquee-scroll-left {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes marquee-scroll-right {
+  0% {
+    transform: translateX(-50%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+.marquee-track-left {
+  animation: marquee-scroll-left 60s linear infinite;
+}
+
+.marquee-track-right {
+  animation: marquee-scroll-right 60s linear infinite;
+}
+
+.marquee-track:hover {
+  animation-play-state: paused;
+}
+
+/* ============================================
    SCROLLBAR (subtle, dark)
    ============================================ */
 ::-webkit-scrollbar {

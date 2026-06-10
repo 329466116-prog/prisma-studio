@@ -1,51 +1,27 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef } from "react";
 
-const ALL_GIFS = [
-  "https://motionsites.ai/assets/hero-space-voyage-preview-eECLH3Yc.gif",
-  "https://motionsites.ai/assets/hero-codenest-preview-Cgppc2qV.gif",
-  "https://motionsites.ai/assets/hero-vex-ventures-preview-BczMFIiw.gif",
-  "https://motionsites.ai/assets/hero-stellar-ai-v2-preview-DjvxjG3C.gif",
-  "https://motionsites.ai/assets/hero-asme-preview-B_nGDnTP.gif",
-  "https://motionsites.ai/assets/hero-transform-data-preview-Cx5OU29N.gif",
-  "https://motionsites.ai/assets/hero-vitara-preview-Cjz2QYyU.gif",
-  "https://motionsites.ai/assets/hero-skyelite-preview-DHaZIgUv.gif",
-  "https://motionsites.ai/assets/hero-aethera-preview-DknSlcTa.gif",
-  "https://motionsites.ai/assets/hero-designpro-preview-D8c5_een.gif",
-  "https://motionsites.ai/assets/hero-stellar-ai-preview-D3HL6bw1.gif",
-  "https://motionsites.ai/assets/hero-xportfolio-preview-D4A8maiC.gif",
-  "https://motionsites.ai/assets/hero-orbit-web3-preview-BXt4OttD.gif",
-  "https://motionsites.ai/assets/hero-nexora-preview-cx5HmUgo.gif",
-  "https://motionsites.ai/assets/hero-evr-ventures-preview-DZxeVFEX.gif",
-  "https://motionsites.ai/assets/hero-planet-orbit-preview-DWAP8Z1P.gif",
-  "https://motionsites.ai/assets/hero-new-era-preview-CocuDUm9.gif",
-  "https://motionsites.ai/assets/hero-wealth-preview-B70idl_u.gif",
-  "https://motionsites.ai/assets/hero-luminex-preview-CxOP7ce6.gif",
-  "https://motionsites.ai/assets/hero-celestia-preview-0yO3jXO8.gif",
-];
+/**
+ * ⭐ 跑马灯 1.0 试运营版（Thu 00:35）
+ * — 用单张 R2 URL 验证自动循环效果（多多先传 1 张试）
+ * — 成功后再换成 20 张本地下载的 motionsites.ai 动图（走 R2）
+ *
+ * 设计：
+ * — 两行跑马灯，row1 向左 / row2 向右（视觉变化）
+ * — 纯 CSS @keyframes 循环，不依赖 scroll
+ * — 用 doubled（[...imgs, ...imgs]）+ translateX 0%→-50% 实现无缝循环
+ *   （doubled 内容相同，-50% 位置视觉等同 0%）
+ * — 60s 一周期，足够慢
+ */
+const TEST_IMG = "https://pub-3cb4b1d4ef984c2bb650fbc36d6e7da4.r2.dev/img/Marquee/%E7%94%9F%E6%88%90%E6%9D%82%E5%BF%97%E5%B0%81%E9%9D%A2%E5%9B%BE%20(1).png";
+
+// 铺满视口的图片数 = ceil(视口宽 / (图宽 + gap)) + 2 张缓冲
+// 1440 / (420+12) ≈ 3.3 → 用 6 张足够
+const IMG_COUNT = 6;
+const ROW_IMGS = Array.from({ length: IMG_COUNT }, (_, i) => ({ id: i, src: TEST_IMG }));
+const ROW_DOUBLED = [...ROW_IMGS, ...ROW_IMGS];
 
 export default function MarqueeSection() {
   const sectionRef = useRef<HTMLElement | null>(null);
-  const [offset, setOffset] = useState(0);
-
-  // Tripled for seamless scrolling
-  // 20 张分两行：row1 = 10, row2 = 10（hero-terra 国内访问不到已移除）
-  const row1Gifs = ALL_GIFS.slice(0, 10);
-  const row2Gifs = ALL_GIFS.slice(10);
-  const row1Tripled = [...row1Gifs, ...row1Gifs, ...row1Gifs];
-  const row2Tripled = [...row2Gifs, ...row2Gifs, ...row2Gifs];
-
-  useEffect(() => {
-    const handleScroll = () => {
-      if (!sectionRef.current) return;
-      const rect = sectionRef.current.getBoundingClientRect();
-      const calculated = (window.scrollY - rect.top + window.innerHeight) * 0.3;
-      setOffset(calculated);
-    };
-
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    handleScroll();
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
 
   return (
     <section
@@ -53,39 +29,43 @@ export default function MarqueeSection() {
       id="services"
       className="w-full pt-24 sm:pt-32 md:pt-40 pb-10"
     >
-      {/* Row 1 - moves right */}
+      {/* Row 1 - 自动向左循环 */}
       <div className="overflow-hidden mb-3">
-        <div
-          className="flex gap-3 marquee-tile"
-          style={{ transform: `translateX(${offset - 200}px)` }}
-        >
-          {row1Tripled.map((src, i) => (
+        <div className="flex gap-3 marquee-track marquee-track-left">
+          {ROW_DOUBLED.map((img, i) => (
             <img
-              key={i}
-              src={src}
+              key={`r1-${i}`}
+              src={img.src}
               alt=""
-              loading="lazy"
+              loading="eager"
+              draggable={false}
               className="rounded-2xl object-cover flex-shrink-0"
-              style={{ width: "420px", height: "270px" }}
+              style={{
+                width: "420px",
+                height: "236px",
+                display: "block",
+              }}
             />
           ))}
         </div>
       </div>
 
-      {/* Row 2 - moves left */}
+      {/* Row 2 - 自动向右循环 */}
       <div className="overflow-hidden">
-        <div
-          className="flex gap-3 marquee-tile"
-          style={{ transform: `translateX(${-(offset - 200)}px)` }}
-        >
-          {row2Tripled.map((src, i) => (
+        <div className="flex gap-3 marquee-track marquee-track-right">
+          {ROW_DOUBLED.map((img, i) => (
             <img
-              key={i}
-              src={src}
+              key={`r2-${i}`}
+              src={img.src}
               alt=""
-              loading="lazy"
+              loading="eager"
+              draggable={false}
               className="rounded-2xl object-cover flex-shrink-0"
-              style={{ width: "420px", height: "270px" }}
+              style={{
+                width: "420px",
+                height: "236px",
+                display: "block",
+              }}
             />
           ))}
         </div>
