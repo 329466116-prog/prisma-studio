@@ -6,9 +6,15 @@ import ContactButton from "../ContactButton";
 import ShinyText from "../ShinyText";
 import BorderGlow from "../BorderGlow";
 import GradientText from "../GradientText";
+import PillNav from "../PillNav";
 import { FEATURES } from "../data/features";
 
-const NAV_LINKS = ["关于", "服务", "项目", "联系"];
+const NAV_ITEMS = [
+  { label: "关于", href: "#about" },
+  { label: "服务", href: "#services-list" },
+  { label: "项目", href: "#projects" },
+  { label: "联系", href: "#联系" },
+];
 
 export default function HeroSection() {
   return (
@@ -16,20 +22,29 @@ export default function HeroSection() {
       id="about"
       className="min-h-screen flex flex-col overflow-x:clip relative"
     >
-      {/* Navbar */}
-      <FadeIn delay={0} y={-20} className="w-full">
-        <nav className="w-full flex items-center justify-between px-6 md:px-10 pt-6 md:pt-8">
-          {NAV_LINKS.map((link) => (
-            <a
-              key={link}
-              href={`#${link}`}
-              className="text-[#D7E2EA] font-medium tracking-wider text-sm md:text-lg lg:text-[1.4rem] hover:opacity-70 transition-opacity duration-200"
-            >
-              {link}
-            </a>
-          ))}
-        </nav>
-      </FadeIn>
+      {/* 顶部导航栏 - PillNav (reactbits.dev 移植)
+          — darkmode: baseColor #0C0C0C（站点底色融合） + pillColor #FFFFFF（白 pill 突出）
+          — logo: 内联 SVG "Q" 字符（钱的首字母，国际通用，Q 外面圆环+尾巴=钱币图样）
+          — initialLoadAnimation: logo scale 0→1 + nav items 宽度 0→auto
+          — 居中: PillNav 自身 left: 50% + translateX(-50%) */}
+      <PillNav
+        logo={
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="12" cy="12" r="10" stroke="#FFD700" strokeWidth="2" fill="none" />
+            <text x="12" y="17" textAnchor="middle" fontSize="14" fontWeight="900" fill="#FFD700" fontFamily="sans-serif">Q</text>
+            <line x1="15.5" y1="15.5" x2="20" y2="20" stroke="#FFD700" strokeWidth="2" strokeLinecap="round" />
+          </svg>
+        }
+        logoAlt="钱多多"
+        items={NAV_ITEMS}
+        activeHref="#about"
+        baseColor="#0C0C0C"
+        pillColor="#FFFFFF"
+        hoveredPillTextColor="#FFFFFF"
+        pillTextColor="#0C0C0C"
+        ease="power2.easeOut"
+        initialLoadAnimation
+      />
 
       {/* Hero Heading */}
       <FadeIn delay={0.15} y={40} className="w-full">
