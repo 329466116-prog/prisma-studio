@@ -1,75 +1,89 @@
 import { useRef } from "react";
+import { MARQUEE_IMAGES, marqueeUrl } from "../data/marquee-images";
 
 /**
- * ⭐ 跑马灯 1.0 试运营版（Thu 00:35）
- * — 用单张 R2 URL 验证自动循环效果（多多先传 1 张试）
- * — 成功后再换成 20 张本地下载的 motionsites.ai 动图（走 R2）
+ * 跑马灯 2.1（Thu 09:20 · 15 张两排分配版）
+ * — Row 1 = 8 张图（前 8 张），Row 2 = 7 张图（后 7 张）
+ * — 上下排零重复，15 张图全部用上
+ * — 每排独立 doubled（[...imgs, ...imgs]）+ translateX 0%→-50% 无缝循环
+ * — Row 1 向左循环，Row 2 向右循环（视觉变化）
+ * — 维护：上传新图到 R2 → 重跑 sync-marquee.mjs → 数组自动更新
  *
- * 设计：
- * — 两行跑马灯，row1 向左 / row2 向右（视觉变化）
- * — 纯 CSS @keyframes 循环，不依赖 scroll
- * — 用 doubled（[...imgs, ...imgs]）+ translateX 0%→-50% 实现无缝循环
- *   （doubled 内容相同，-50% 位置视觉等同 0%）
- * — 60s 一周期，足够慢
+ * 注意：ROW1_COUNT + ROW2_COUNT 必须等于 MARQUEE_IMAGES.length
+ * 当前：8 + 7 = 15
  */
-const TEST_IMG = "https://pub-3cb4b1d4ef984c2bb650fbc36d6e7da4.r2.dev/img/Marquee/%E7%94%9F%E6%88%90%E6%9D%82%E5%BF%97%E5%B0%81%E9%9D%A2%E5%9B%BE%20(1).png";
 
-// 铺满视口的图片数 = ceil(视口宽 / (图宽 + gap)) + 2 张缓冲
-// 1440 / (420+12) ≈ 3.3 → 用 6 张足够
-const IMG_COUNT = 6;
-const ROW_IMGS = Array.from({ length: IMG_COUNT }, (_, i) => ({ id: i, src: TEST_IMG }));
-const ROW_DOUBLED = [...ROW_IMGS, ...ROW_IMGS];
+const ROW1_COUNT = 8;
+const ROW2_COUNT = MARQUEE_IMAGES.length - ROW1_COUNT; // 15 - 8 = 7
+
+if (ROW2_COUNT <= 0) {
+ throw new Error(
+ `MARQUEE_IMAGES.length (${MARQUEE_IMAGES.length}) must be > ROW1_COUNT (${ROW1_COUNT})`
+ );
+}
+
+const ROW1_IMGS = Array.from({ length: ROW1_COUNT }, (_, i) => ({
+ id: i,
+ src: marqueeUrl(MARQUEE_IMAGES[i]),
+}));
+const ROW2_IMGS = Array.from({ length: ROW2_COUNT }, (_, i) => ({
+ id: i,
+ src: marqueeUrl(MARQUEE_IMAGES[ROW1_COUNT + i]),
+}));
+
+const ROW1_DOUBLED = [...ROW1_IMGS, ...ROW1_IMGS]; // 16 张
+const ROW2_DOUBLED = [...ROW2_IMGS, ...ROW2_IMGS]; // 14 张
 
 export default function MarqueeSection() {
-  const sectionRef = useRef<HTMLElement | null>(null);
+ const sectionRef = useRef<HTMLElement | null>(null);
 
-  return (
-    <section
-      ref={sectionRef}
-      id="services"
-      className="w-full pt-24 sm:pt-32 md:pt-40 pb-10"
-    >
-      {/* Row 1 - 自动向左循环 */}
-      <div className="overflow-hidden mb-3">
-        <div className="flex gap-3 marquee-track marquee-track-left">
-          {ROW_DOUBLED.map((img, i) => (
-            <img
-              key={`r1-${i}`}
-              src={img.src}
-              alt=""
-              loading="eager"
-              draggable={false}
-              className="rounded-2xl object-cover flex-shrink-0"
-              style={{
-                width: "420px",
-                height: "236px",
-                display: "block",
-              }}
-            />
-          ))}
-        </div>
-      </div>
+ return (
+ <section
+ ref={sectionRef}
+ id="services"
+ className="w-full pt-24 sm:pt-32 md:pt-40 pb-10"
+ >
+ {/* Row 1 - 8 张图，自动向左循环 */}
+ <div className="overflow-hidden mb-3">
+ <div className="flex gap-3 marquee-track marquee-track-left">
+ {ROW1_DOUBLED.map((img, i) => (
+ <img
+ key={`r1-${i}`}
+ src={img.src}
+ alt=""
+ loading="eager"
+ draggable={false}
+ className="rounded-2xl object-cover flex-shrink-0"
+ style={{
+ width: "420px",
+ height: "236px",
+ display: "block",
+ }}
+ />
+ ))}
+ </div>
+ </div>
 
-      {/* Row 2 - 自动向右循环 */}
-      <div className="overflow-hidden">
-        <div className="flex gap-3 marquee-track marquee-track-right">
-          {ROW_DOUBLED.map((img, i) => (
-            <img
-              key={`r2-${i}`}
-              src={img.src}
-              alt=""
-              loading="eager"
-              draggable={false}
-              className="rounded-2xl object-cover flex-shrink-0"
-              style={{
-                width: "420px",
-                height: "236px",
-                display: "block",
-              }}
-            />
-          ))}
-        </div>
-      </div>
-    </section>
-  );
+ {/* Row 2 - 7 张图，自动向右循环 */}
+ <div className="overflow-hidden">
+ <div className="flex gap-3 marquee-track marquee-track-right">
+ {ROW2_DOUBLED.map((img, i) => (
+ <img
+ key={`r2-${i}`}
+ src={img.src}
+ alt=""
+ loading="eager"
+ draggable={false}
+ className="rounded-2xl object-cover flex-shrink-0"
+ style={{
+ width: "420px",
+ height: "236px",
+ display: "block",
+ }}
+ />
+ ))}
+ </div>
+ </div>
+ </section>
+ );
 }
