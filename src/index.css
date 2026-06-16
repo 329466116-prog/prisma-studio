@@ -1,5 +1,10 @@
 @import "tailwindcss";
 
+/* react-modern-audio-player 自带 CSS — 必须显式 import
+   （Vite dev 会自动注入依赖 CSS 所以本地跑得起来，
+     但 build 不会，所以 dist 里没 rmap-* 类 → 控件挤一团） */
+@import "react-modern-audio-player/dist/index.css";
+
 /* ============================================
    GLOBAL RESET
    ⚠️ 重要：必须包进 @layer base！
