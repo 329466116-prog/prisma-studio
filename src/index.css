@@ -150,6 +150,20 @@ html {
 }
 
 /* ============================================
+   SCROLLBAR HIDDEN — 隐藏滚动条但保留滚动能力
+   （多用于文本内容框，内容超出但不允许滚动条占据视觉空间）
+   ============================================ */
+.scrollbar-hidden {
+  scrollbar-width: none;       /* Firefox */
+  -ms-overflow-style: none;    /* IE/Edge Legacy */
+}
+.scrollbar-hidden::-webkit-scrollbar {
+  display: none;               /* Chrome/Safari */
+  width: 0;
+  height: 0;
+}
+
+/* ============================================
    SELECTION COLOR
    ============================================ */
 ::selection {

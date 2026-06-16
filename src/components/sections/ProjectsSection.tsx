@@ -168,7 +168,7 @@ function QwenTTSProjectCard({ project }: { project: Project }) {
           </div>
           {/* Bottom: 功能介绍 — 跟 v6 文字块一致 */}
           <div
-            className="rounded-[40px] sm:rounded-[50px] md:rounded-[60px] border border-[#D7E2EA]/15 bg-[#14171A] p-4 sm:p-5 md:p-6 overflow-auto flex-1 min-h-0"
+            className="rounded-[40px] sm:rounded-[50px] md:rounded-[60px] border border-[#D7E2EA]/15 bg-[#14171A] p-4 sm:p-5 md:p-6 overflow-auto scrollbar-hidden flex-1 min-h-0"
           >
             <p className="text-[#D7E2EA]/50 font-light uppercase tracking-widest text-[10px] sm:text-xs">
               {project.infoTitle}
@@ -180,7 +180,7 @@ function QwenTTSProjectCard({ project }: { project: Project }) {
         </div>
         {/* Right column: 语音剧本 (60% width) — 跟 v6 文字块一致 */}
         <div style={{ width: "60%" }} className="flex min-h-0">
-          <div className="w-full h-full rounded-[40px] sm:rounded-[50px] md:rounded-[60px] border border-[#D7E2EA]/15 bg-[#14171A] p-5 sm:p-6 md:p-8 overflow-auto">
+          <div className="w-full h-full rounded-[40px] sm:rounded-[50px] md:rounded-[60px] border border-[#D7E2EA]/15 bg-[#14171A] p-5 sm:p-6 md:p-8 overflow-auto scrollbar-hidden">
             <p className="text-[#D7E2EA]/50 font-light uppercase tracking-widest text-[10px] sm:text-xs">
               {project.scriptTitle}
             </p>
