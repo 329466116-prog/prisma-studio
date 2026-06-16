@@ -5,6 +5,23 @@
      但 build 不会，所以 dist 里没 rmap-* 类 → 控件挤一团） */
 @import "react-modern-audio-player/dist/index.css";
 
+/* Qwen-TTS 卡片的内置 TrackInfo 限宽 + 限高
+   （原通过 compound child 设 width=220px，改用 activeUI 内置 TrackInfo 后用 CSS 限制）
+   ⚠️ 不要 white-space: nowrap，span 里 customTrackInfo 用 white-space: pre-line
+     强制 \n 换行（"Qwen3-TTS\n小说多角色语音生成\n全自动语音生成流程"），
+     nowrap 会把它挤回一行。 */
+.qwen-tts-player .rmap-track-info-container {
+  max-width: 220px;
+  height: 44px;       /* 11px × 1.2 line-height × 3 行 + 余量 = ~40px */
+  overflow: hidden;
+  font-size: 11px;
+}
+.qwen-tts-player .rmap-track-info-container > * {
+  display: block;
+  font-size: 11px;
+  word-break: break-word;
+}
+
 /* ============================================
    GLOBAL RESET
    ⚠️ 重要：必须包进 @layer base！

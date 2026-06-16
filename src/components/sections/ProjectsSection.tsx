@@ -152,7 +152,7 @@ function QwenTTSProjectCard({ project }: { project: Project }) {
                     volume: 0.8,
                     curPlayId: project.id,
                   }}
-                  activeUI={{ all: true, trackInfo: false, progress: "bar" }}
+                  activeUI={{ all: true, progress: "bar" }}
                   colorScheme="dark"
                   rootContainerProps={{
                     style: {
@@ -162,13 +162,7 @@ function QwenTTSProjectCard({ project }: { project: Project }) {
                     },
                     className: "qwen-tts-player",
                   }}
-                >
-                  <AudioPlayer.TrackInfo
-                    gridArea="row1-2"
-                    width="220px"
-                    padding="0 8px 0 0"
-                  />
-                </AudioPlayer>
+                />
               </div>
             </div>
           </div>
