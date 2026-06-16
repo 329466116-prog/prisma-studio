@@ -53,6 +53,8 @@ function CardTop({ project }: { project: Project }) {
       <LiveProjectButton
         href={project.layout === "qwenTTS" ? "https://qwen.ai/blog?id=qwen3tts-0115" : "#联系"}
         label={project.layout === "qwenTTS" ? "官方文档" : "查看项目"}
+        target={project.layout === "qwenTTS" ? "_blank" : undefined}
+        rel={project.layout === "qwenTTS" ? "noopener noreferrer" : undefined}
         className="shrink-0"
       />
     </div>
