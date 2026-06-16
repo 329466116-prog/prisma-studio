@@ -11,7 +11,7 @@ import { FEATURES } from "../data/features";
 
 const NAV_ITEMS = [
   { label: "关于", href: "#about" },
-  { label: "服务", href: "#services-list" },
+  { label: "专业技能", href: "#services-list" },
   { label: "项目", href: "#projects" },
   { label: "联系", href: "#联系" },
 ];

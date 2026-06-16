@@ -12,7 +12,7 @@ export default function ServicesSection() {
           className="text-[#0C0C0C] font-black uppercase text-center"
           style={{ fontSize: "clamp(3rem, 12vw, 160px)" }}
         >
-          服务
+          专业技能
         </h2>
       </FadeIn>
 
@@ -45,7 +45,7 @@ export default function ServicesSection() {
                   className="font-light leading-relaxed max-w-2xl mt-3 sm:mt-4 text-[#0C0C0C]"
                   style={{
                     fontSize: "clamp(0.85rem, 1.6vw, 1.25rem)",
-                    opacity: 0.6,
+                    opacity: 1,
                   }}
                 >
                   {service.description}

@@ -18,6 +18,11 @@ interface CharProps {
  * Each char animates from opacity 0.2 to 1 based on its sub-range of scroll progress.
  */
 function Char({ char, index, total, scrollYProgress }: CharProps) {
+  // Newline: render as <br /> with no animation, no placeholder
+  if (char === "\n") {
+    return <br />;
+  }
+
   const start = index / total;
   const end = (index + 1) / total;
   const opacity = useTransform(scrollYProgress, [start, end], [0.2, 1]);
