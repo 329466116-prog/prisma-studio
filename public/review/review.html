@@ -1,0 +1,1138 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <title>二年级下册 · 霓虹复习舱</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=JetBrains+Mono:wght@400;700&family=Noto+Sans+SC:wght@400;500;700;900&display=swap">
+  <script src="https://cdn.jsdelivr.net/npm/pinyin-pro@3.26.0/dist/index.js"></script>
+  <style>
+    /* ============ 配色 tokens（霓虹科技风） ============ */
+    :root {
+      --bg-0: #050514;
+      --bg-1: #0a0a24;
+      --bg-2: #14143a;
+      --ink-0: #e0e8ff;
+      --ink-1: #a0a8c8;
+      --ink-2: #5a628a;
+      --neon-cyan:   #00f0ff;
+      --neon-magenta:#ff2bb3;
+      --neon-purple: #b829ff;
+      --neon-green:  #00ff88;
+      --neon-yellow: #ffea00;
+      --neon-red:    #ff3060;
+      --accent: var(--neon-cyan);
+      --glow-cyan: 0 0 8px var(--neon-cyan), 0 0 16px var(--neon-cyan), 0 0 32px rgba(0,240,255,.4);
+      --glow-magenta: 0 0 8px var(--neon-magenta), 0 0 16px var(--neon-magenta), 0 0 32px rgba(255,43,179,.4);
+      --glow-green: 0 0 8px var(--neon-green), 0 0 16px var(--neon-green), 0 0 32px rgba(0,255,136,.4);
+      --glow-red: 0 0 8px var(--neon-red), 0 0 16px var(--neon-red), 0 0 32px rgba(255,48,96,.4);
+      --glow-yellow: 0 0 8px var(--neon-yellow), 0 0 16px var(--neon-yellow), 0 0 32px rgba(255,234,0,.4);
+      --glow-purple: 0 0 8px var(--neon-purple), 0 0 16px var(--neon-purple), 0 0 32px rgba(184,41,255,.4);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; }
+    body {
+      background:
+        radial-gradient(ellipse at top, rgba(184,41,255,.15), transparent 50%),
+        radial-gradient(ellipse at bottom, rgba(0,240,255,.15), transparent 50%),
+        linear-gradient(180deg, var(--bg-1), var(--bg-0));
+      color: var(--ink-0);
+      font-family: "Noto Sans SC", "Inter", -apple-system, "PingFang SC", sans-serif;
+      overflow: hidden;
+      min-height: 100vh;
+      position: relative;
+    }
+    /* 网格背景 + scanline */
+    body::before {
+      content: "";
+      position: fixed; inset: 0;
+      background-image:
+        linear-gradient(rgba(0,240,255,.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,240,255,.06) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+      z-index: 0;
+    }
+    body::after {
+      content: "";
+      position: fixed; inset: 0;
+      background: repeating-linear-gradient(
+        180deg,
+        transparent 0,
+        transparent 2px,
+        rgba(0,240,255,.03) 3px,
+        rgba(0,240,255,.03) 4px
+      );
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .stage { position: relative; z-index: 1; max-width: 1100px; margin: 0 auto; padding: 24px; min-height: 100vh; display: flex; flex-direction: column; }
+
+    /* ============ Header ============ */
+    header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 12px 0 16px;
+      border-bottom: 1px solid rgba(0,240,255,.2);
+      margin-bottom: 20px;
+    }
+    .logo {
+      font-family: "Orbitron", monospace;
+      font-weight: 900;
+      font-size: 28px;
+      letter-spacing: .08em;
+      color: var(--neon-cyan);
+      text-shadow: var(--glow-cyan);
+    }
+    .logo .accent { color: var(--neon-magenta); text-shadow: var(--glow-magenta); }
+    .stats {
+      display: flex; gap: 16px;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 14px;
+      color: var(--ink-1);
+    }
+    .stats .pill {
+      padding: 6px 14px;
+      border: 1px solid rgba(0,240,255,.4);
+      border-radius: 999px;
+      background: rgba(0,240,255,.05);
+    }
+    .stats .pill strong { color: var(--neon-yellow); text-shadow: var(--glow-yellow); font-weight: 700; }
+
+    /* ============ 模式 tab ============ */
+    .tabs { display: flex; gap: 12px; margin-bottom: 24px; }
+    .tab {
+      flex: 1;
+      padding: 14px 16px;
+      background: rgba(20,20,58,.4);
+      border: 1px solid rgba(0,240,255,.25);
+      border-radius: 12px;
+      color: var(--ink-1);
+      font-family: "Orbitron", monospace;
+      font-weight: 700;
+      font-size: 14px;
+      letter-spacing: .12em;
+      cursor: pointer;
+      transition: all .2s;
+      text-align: center;
+    }
+    .tab:hover { border-color: var(--neon-cyan); color: var(--neon-cyan); }
+    .tab.active {
+      border-color: var(--neon-cyan);
+      background: rgba(0,240,255,.1);
+      color: var(--neon-cyan);
+      box-shadow: 0 0 16px rgba(0,240,255,.3), inset 0 0 16px rgba(0,240,255,.1);
+    }
+    .tab .icon { display: block; font-size: 20px; margin-bottom: 4px; }
+
+    /* ============ 题目卡 ============ */
+    .card {
+      flex: 1;
+      background:
+        linear-gradient(135deg, rgba(20,20,58,.6), rgba(10,10,36,.8));
+      border: 2px solid var(--neon-cyan);
+      border-radius: 20px;
+      padding: 48px 40px;
+      box-shadow: var(--glow-cyan), inset 0 0 80px rgba(0,240,255,.05);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      position: relative;
+      overflow: hidden;
+      transition: border-color .3s, box-shadow .3s;
+      min-height: 380px;
+    }
+    .card.correct { border-color: var(--neon-green); box-shadow: var(--glow-green), inset 0 0 80px rgba(0,255,136,.05); }
+    .card.wrong { border-color: var(--neon-red); box-shadow: var(--glow-red), inset 0 0 80px rgba(255,48,96,.05); }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      top: -2px; left: -2px; right: -2px; bottom: -2px;
+      background: linear-gradient(135deg, transparent, rgba(0,240,255,.5), transparent);
+      border-radius: 20px;
+      z-index: -1;
+      filter: blur(20px);
+      opacity: .6;
+    }
+
+    .question-label {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 14px;
+      color: var(--neon-yellow);
+      text-shadow: var(--glow-yellow);
+      letter-spacing: .25em;
+      margin-bottom: 20px;
+    }
+
+    .question {
+      font-family: "Orbitron", "Noto Sans SC", monospace;
+      font-size: 88px;
+      font-weight: 900;
+      color: #f0f8ff;            /* 高对比浅色，去发光 */
+      text-shadow: none;
+      text-align: center;
+      line-height: 1.2;
+      letter-spacing: .04em;
+      min-height: 110px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .card.correct .question { color: #e8fff0; }
+    .card.wrong .question { color: #ffe8ec; }
+
+    .question .pinyin-tok {
+      display: inline-block;
+      margin: 0 6px;
+      padding: 6px 14px;
+      border-radius: 8px;
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.12);
+      color: #f0f8ff;
+      font-size: .82em;
+      font-family: "Microsoft YaHei", "微软雅黑", -apple-system, sans-serif;
+      text-shadow: none;
+    }
+
+    /* 填空题：挖空槽位 */
+    .blank-slot {
+      display: inline-block;
+      min-width: 1.8em;
+      margin: 0 2px;
+      padding: 0 8px;
+      border-bottom: 2px solid rgba(0,240,255,.5);
+      color: transparent;
+      user-select: none;
+    }
+    .card.correct .blank-slot { border-bottom-color: #6dffb0; }
+    .card.wrong .blank-slot { border-bottom-color: #ff8a9c; }
+
+    /* 整段默写：每个字独立的小槽（比原 visual 更小） */
+    .card.fillblank .blank-slot {
+      min-width: 1.4em;
+      margin: 0 1px;
+      padding: 0 4px;
+    }
+
+    /* 填空题：紧凑多行布局（整段默写） */
+    .card.fillblank .question {
+      font-size: 28px;
+      line-height: 1.7;
+      letter-spacing: .04em;
+      text-align: left;
+      display: block;
+      max-width: 920px;
+      white-space: pre-wrap;
+    }
+    .card.fillblank .question .blank-slot {
+      min-width: 1.6em;
+      margin: 0 1px;
+    }
+
+    .input-row {
+      margin-top: 36px;
+      display: flex; gap: 12px;
+      width: 100%; max-width: 600px;
+    }
+    .input {
+      flex: 1;
+      padding: 18px 22px;
+      font-family: "Noto Sans SC", "Orbitron", monospace;
+      font-size: 38px;
+      font-weight: 700;
+      color: #ffffff;            /* 纯白高对比 */
+      background: rgba(0,0,0,.5);
+      border: 2px solid rgba(0,240,255,.4);
+      border-radius: 12px;
+      outline: none;
+      letter-spacing: .08em;
+      transition: all .2s;
+      text-shadow: none;
+    }
+
+    /* 默写模式输入框：小一些（要装整段） */
+    .card.fillblank .input {
+      font-size: 24px;
+      padding: 14px 18px;
+      letter-spacing: .02em;
+      min-height: 80px;
+    }
+    .input:focus {
+      border-color: var(--neon-cyan);
+      box-shadow: var(--glow-cyan);
+      background: rgba(0,240,255,.05);
+    }
+    .input::placeholder { color: var(--ink-2); font-weight: 400; }
+    .input.shake { animation: shake .4s; border-color: var(--neon-red); }
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20%, 60% { transform: translateX(-8px); }
+      40%, 80% { transform: translateX(8px); }
+    }
+
+    .btn {
+      padding: 16px 28px;
+      font-family: "Orbitron", monospace;
+      font-weight: 700;
+      font-size: 16px;
+      letter-spacing: .15em;
+      color: var(--ink-0);
+      background: linear-gradient(135deg, rgba(0,240,255,.2), rgba(184,41,255,.2));
+      border: 1.5px solid var(--neon-cyan);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all .2s;
+      box-shadow: 0 0 8px rgba(0,240,255,.3);
+    }
+    .btn:hover { background: linear-gradient(135deg, rgba(0,240,255,.35), rgba(184,41,255,.35)); box-shadow: var(--glow-cyan); transform: translateY(-1px); }
+    .btn.mc-choice { min-width: 220px; font-weight: 500; }  /* 选拼音模式选项：微软雅黑、宽松、相对中等粗细 */
+    .btn:active { transform: translateY(0); }
+    .btn.primary { color: var(--bg-0); background: linear-gradient(135deg, var(--neon-cyan), var(--neon-purple)); border-color: transparent; }
+    .btn.primary:hover { box-shadow: var(--glow-cyan), var(--glow-purple); }
+
+    /* ============ 反馈区 ============ */
+    .feedback {
+      margin-top: 24px;
+      min-height: 60px;
+      display: flex; flex-direction: column; align-items: center; gap: 8px;
+      font-family: "Noto Sans SC", sans-serif;
+      font-size: 20px;
+      font-weight: 500;
+    }
+    .feedback .verdict {
+      font-family: "Orbitron", monospace;
+      font-weight: 900;
+      font-size: 34px;
+      letter-spacing: .15em;
+      text-shadow: none;
+    }
+    .feedback.correct .verdict { color: #6dffb0; }   /* 柔绿，去发光 */
+    .feedback.wrong .verdict { color: #ff8a9c; }     /* 柔红，去发光 */
+    .feedback .answer {
+      color: #fff5b8;            /* 柔黄，去发光 */
+      text-shadow: none;
+      font-size: 26px;
+      font-weight: 700;
+    }
+    .feedback.idle { color: var(--ink-2); font-size: 14px; font-family: "JetBrains Mono", monospace; letter-spacing: .15em; }
+    .feedback.idle .hint { animation: pulse 2s infinite; }
+    @keyframes pulse {
+      0%, 100% { opacity: .5; }
+      50% { opacity: 1; }
+    }
+
+    /* ============ Footer 控制条 ============ */
+    .controls {
+      display: flex; gap: 12px; margin-top: 20px;
+      align-items: center; justify-content: center;
+    }
+    .filter {
+      display: flex; gap: 6px; align-items: center;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 12px;
+      color: var(--ink-1);
+      letter-spacing: .1em;
+    }
+    .filter select {
+      padding: 6px 10px;
+      background: rgba(5,5,20,.8);
+      color: var(--neon-cyan);
+      border: 1px solid rgba(0,240,255,.4);
+      border-radius: 6px;
+      font-family: "JetBrains Mono", monospace;
+      cursor: pointer;
+    }
+
+    /* ============ 角落装饰 ============ */
+    .corner { position: absolute; width: 20px; height: 20px; border: 2px solid var(--neon-cyan); }
+    .corner.tl { top: 12px; left: 12px; border-right: none; border-bottom: none; }
+    .corner.tr { top: 12px; right: 12px; border-left: none; border-bottom: none; }
+    .corner.bl { bottom: 12px; left: 12px; border-right: none; border-top: none; }
+    .corner.br { bottom: 12px; right: 12px; border-left: none; border-top: none; }
+    .card { position: relative; }
+  </style>
+</head>
+<body>
+  <div class="stage">
+    <header>
+      <div class="logo">CYBER<span class="accent">//</span>REVIEW <span style="font-family:'JetBrains Mono';font-size:18px;color:var(--ink-2);">v1.0</span></div>
+      <div class="stats">
+        <div class="pill">题号 <strong id="stat-q">0/0</strong></div>
+        <div class="pill">对 <strong id="stat-ok" style="color:var(--neon-green);text-shadow:var(--glow-green);">0</strong></div>
+        <div class="pill">错 <strong id="stat-no" style="color:var(--neon-red);text-shadow:var(--glow-red);">0</strong></div>
+        <div class="pill">准确率 <strong id="stat-acc">—</strong></div>
+      </div>
+    </header>
+
+    <div class="tabs" id="tabs">
+      <button class="tab active" data-mode="py2word">
+        <span class="icon">🎯</span>
+        拼音 → 词语
+      </button>
+      <button class="tab" data-mode="fillblank">
+        <span class="icon">📜</span>
+        背诵填空
+      </button>
+      <button class="tab" data-mode="mc">
+        <span class="icon">🅰️</span>
+        选拼音
+      </button>
+    </div>
+
+    <div class="card" id="card">
+      <div class="corner tl"></div>
+      <div class="corner tr"></div>
+      <div class="corner bl"></div>
+      <div class="corner br"></div>
+
+      <div class="question-label" id="qlabel">[ READY ]</div>
+      <div class="question" id="qtext">点击下方「下一题」开始</div>
+
+      <div class="input-row">
+        <input class="input" id="answer" type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="输入答案后按 Enter 提交" />
+        <button class="btn primary" id="submit">提交 ↵</button>
+      </div>
+
+      <div class="feedback idle" id="feedback">
+        <span class="hint">// AWAITING INPUT //</span>
+      </div>
+    </div>
+
+    <div class="controls">
+      <button class="btn" id="next">下一题 →</button>
+      <div class="filter">
+        词长:
+        <select id="filter-len">
+          <option value="all">全部</option>
+          <option value="2">2 字</option>
+          <option value="3">3 字</option>
+          <option value="4">4 字</option>
+        </select>
+      </div>
+      <div class="filter">
+        范围:
+        <select id="filter-src">
+          <option value="all">全部来源</option>
+          <option value="教辅-识字">教辅-识字</option>
+          <option value="教辅-园地生字">教辅-园地生字</option>
+          <option value="参考答案-看拼音写词">参考答案-看拼音写词</option>
+        </select>
+      </div>
+      <div class="filter">
+        策略:
+        <select id="fillblank-mode">
+          <option value="whole">整段挖空</option>
+          <option value="tail">末尾挖字</option>
+        </select>
+      </div>
+      <div class="filter">
+        数量:
+        <select id="fillblank-count">
+          <option value="1">1</option>
+          <option value="2" selected>2</option>
+          <option value="3">3</option>
+        </select>
+      </div>
+      <button class="btn" id="reset">重置统计</button>
+    </div>
+  </div>
+
+  <script src="word_bank.js"></script>
+  <script src="recite_bank.js"></script>
+  <script>
+    // ===== 状态 =====
+    const state = {
+      mode: 'py2word',   // py2word | fillblank | mc
+      qIndex: 0, ok: 0, no: 0,
+      current: null,
+      lock: false,
+      filterLen: 'all',
+      filterSrc: 'all',
+      fillblankLevel: 1,
+      fillblankMode: 'whole',  // 'whole' 整段挖空 | 'tail' 末尾挖字
+      fillblankWhole: 2,       // 整段挖空挖 N 段
+      fillblankTail: 3,        // 末尾挖空挖 N 字
+    };
+
+    const $ = (s) => document.querySelector(s);
+    const card = $('#card'), qlabel = $('#qlabel'), qtext = $('#qtext'),
+          ans = $('#answer'), fb = $('#feedback'),
+          sq = $('#stat-q'), sok = $('#stat-ok'), sno = $('#stat-no'), sacc = $('#stat-acc');
+
+    // ===== 词库筛选 =====
+    function filteredBank() {
+      return WORDS.filter(w => {
+        if (state.filterLen !== 'all' && w[0].length !== parseInt(state.filterLen, 10)) return false;
+        if (state.filterSrc !== 'all') {
+          // 词条含 sources 字段为数组 [4]，但 word_bank.js 数组格式是 [word, pinyin_space, pinyin_tone]
+          // 所以这里从全局 WORDS 对象结构里筛
+        }
+        return true;
+      });
+    }
+
+    // 注意：word_bank.js 是 [["word","py","py_tone"],...] 结构，没有 sources 字段
+    // 来源筛选用不到（js 数组里没存 sources），所以先简化
+
+    function randWord() {
+      const bank = filteredBank();
+      if (bank.length === 0) return null;
+      return bank[Math.floor(Math.random() * bank.length)];
+    }
+
+    function shuffleChoices(target, n) {
+      // 给选择题生成 n 个干扰项（用别的词的拼音/词语）
+      const bank = filteredBank().filter(w => w !== target);
+      const out = [target];
+      for (let i = 0; i < n - 1 && bank.length > 0; i++) {
+        const idx = Math.floor(Math.random() * bank.length);
+        out.push(bank.splice(idx, 1)[0]);
+      }
+      // 洗牌
+      for (let i = out.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [out[i], out[j]] = [out[j], out[i]];
+      }
+      return out;
+    }
+
+    // ===== 音韵混淆字典（用于 MC 模式3 的干扰项生成） =====
+    const INITIALS_CONFUSABLE = {
+      // 平舌 z/c/s vs 翅舌 zh/ch/sh
+      'zh': ['z', 'j'], 'ch': ['c', 'q'], 'sh': ['s', 'x'],
+      'z':  ['zh'],    'c':  ['ch'],    's':  ['sh', 'x'],
+      'x':  ['sh', 's'],'j':  ['zh'],    'q':  ['ch'],
+      // n/l 鼻音/边音
+      'n':  ['l'],     'l':  ['n', 'r'],'r':  ['l'],
+      // f/h
+      'f':  ['h'],     'h':  ['f'],
+      // 送气/不送气
+      'b':  ['p'],     'p':  ['b'],     'd':  ['t'],     't':  ['d'],
+      'g':  ['k'],     'k':  ['g'],
+    };
+    const FINALS_CONFUSABLE = {
+      // 前后鼻音
+      'ang': ['an', 'ong'],   'an':  ['ang'],
+      'eng': ['en', 'ong'],   'en':  ['eng'],
+      'ing': ['in'],          'in':  ['ing'],
+      'ong': ['ang', 'eng', 'ou'],
+      // 复韵母
+      'iang':['ian', 'uang'], 'ian': ['iang', 'uan'],
+      'uang':['uan', 'iang'], 'uan': ['uang', 'ian'],
+      'ui':  ['iu'],          'iu':  ['ui'],
+      'ei':  ['ie'],          'ie':  ['ei'],
+      'ai':  ['ei'],          'ei':  ['ai'],
+      'ao':  ['ou'],          'ou':  ['ao'],
+      // u / ü
+      'u':   ['ü'],           'ü':   ['u'],
+    };
+
+    function splitPinyinTone(pinyinTone) {
+      return pinyinTone.split(' ').map(tok => {
+        const m = tok.match(/^([a-zü]+)(\d?)$/i);
+        return m ? [m[1].toLowerCase(), m[2]] : [tok, ''];
+      });
+    }
+    function joinPinyinTone(arr) {
+      return arr.map(([ini, tone]) => ini + tone).join(' ');
+    }
+    function genPinyinVariants(pinyinTone) {
+      // 给 "chē fu" → 拆成 [["ch","1"],["f","4"]] → 单位置替换 → 变体集合
+      const tokens = splitPinyinTone(pinyinTone);
+      const variants = new Set();
+      for (let i = 0; i < tokens.length; i++) {
+        const [ini, tone] = tokens[i];
+        // 声母替换（只对词首/含声母的字起）
+        for (const alt of (INITIALS_CONFUSABLE[ini] || [])) {
+          const nt = tokens.map((t, j) => j === i ? [alt, tone] : t);
+          variants.add(joinPinyinTone(nt));
+        }
+        // 韵母替换（仅对多于 1 个字符的 token）
+        if (ini.length > 1) {
+          const final = ini.slice(1);
+          for (const altFinal of (FINALS_CONFUSABLE[final] || [])) {
+            const nt = tokens.map((t, j) => j === i ? [ini[0] + altFinal, tone] : t);
+            variants.add(joinPinyinTone(nt));
+          }
+        }
+      }
+      return [...variants];
+    }
+
+    // ===== 词库索引（词 → 词 + 拼音 → 词） =====
+    const PY_TONE_INDEX = {};
+    for (const w of WORDS) {
+      const pyTone = w[2];
+      if (!PY_TONE_INDEX[pyTone]) PY_TONE_INDEX[pyTone] = [];
+      PY_TONE_INDEX[pyTone].push(w);
+    }
+
+    // ===== 形近字组（字形相近、容易写错） =====
+    const VISUAL_CONFUSABLE_GROUPS = [
+      ['主','王','玉','住','柱'], ['要','腰','遥','耀'],
+      ['杨','扬','场','汤'], ['桃','挑','逃','淘'],
+      ['满','瞒','螨'], ['穷','穹','究'], ['尽','禁','烬'],
+      ['争','净','静','睁'], ['抢','枪','舱','呛'],
+      ['倒','到','岛','道'], ['车','东','轧'],
+      ['扑','铺','捕','仆'], ['灭','灰','炙'],
+      ['峰','锋','蜂','烽'], ['空','孔','突','窑'],
+      ['彩','采','踩','睬'], ['梦','孟','焚'],
+      ['雪','雷','雾','霜'], ['精','晶','青','情','请','清','静','净','敬'],
+      ['请','情','清','青','精','净','静'], ['帮','邦','绑','梆'],
+      ['弟','第','递','梯'], ['朋','明','服','服'],
+      ['双','又','叉'], ['苹','平','坪','评'],
+      ['果','东','朵','采'], ['花','化','草','华'],
+      ['草','茶','早','曹'], ['点','占','店','帖'],
+      ['亮','高','京','亭'], ['勇','涌','通','恿'],
+      ['球','求','舅','朽'], ['秋','求','收','愁'],
+      ['坐','座','做'], ['走','去','赵','赶'],
+      ['远','还','运','连'], ['近','进','听','银'],
+      ['看','相','着','瞧'], ['见','让','兑','觅'],
+      ['话','活','语','恍'], ['家','安','字','完'],
+      ['校','对','较','挎'], ['飞','气','机','饥'],
+      ['行','往','很','衍'], ['思','恩','念','恕'],
+      ['忙','亡','忘','茫'], ['怕','伯','拍','泊'],
+      ['直','真','具','植'], ['更','便','使','硬'],
+      ['蓝','兰','栏','篮'], ['湖','胡','葫','糊'],
+      ['极','及','级','垃'], ['惊','京','警','景'],
+      ['教','育','淆','酵'], ['问','们','问','闪'],
+      // 扩充：覆盖二年级下册高频字
+      ['太','大','犬','夭','头'], ['夫','天','无','父'],
+      ['密','秘','蜜','粟'], ['甜','田','由','甲'],
+      ['温','湿','暖','暇'], ['暖','爱','缓','援'],
+      ['锋','峰','蜂','烽'], ['冒','昌','昂','帽'],
+      ['浪','狼','琅'], ['泉','白','伯','百'],
+      ['泪','目','没'], ['湾','弯','弯'],
+      ['峡','陕','狭'], ['岛','捣','到'],
+      ['沟','购','构','钩'], ['巨','臣','拒','距'],
+      ['陈','阵','陈'], ['坛','云','运','坛'],
+      ['幸','辛','幸','杏'], ['使','便','驶','始'],
+      ['俩','两','辆'], ['伙','火','灭'],
+      ['伴','半','拌','胖'], ['份','分','粉','纷'],
+      ['信','念','心','必'], ['任','认','任'],
+      ['刻','该','孩','刻'], ['左','右','有','友'],
+      ['丰','主','主'], ['要','览','腰'],
+      ['保','堡','抱','报'], ['值','植','殖'],
+      ['旁','傍','膀','榜'], ['迹','过','这','达'],
+      ['哭','器','哭'], ['谁','准','随','难'],
+      ['胖','半','伴','拌'], ['张','长','涨','掌'],
+      ['旁','榜','傍','膀'], ['级','及','极','即'],
+      ['妙','沙','抄','吵'], ['钟','种','中','冲'],
+      ['奶','北','比','打'], ['漂','飘','票','漂'],
+      ['串','窗','穿','窜'], ['客','课','刻','颗'],
+      ['带','戴','代','待'], ['迎','仰','柳'],
+      ['园','圆','远','院'], ['杯','坏','怀','环'],
+      ['抱','报','抱','暴'], ['勇','涌','通','通'],
+      // 扩充二年级高频字覆盖
+      ['化','花','华','划'], ['妆','装','庄'], ['失','矢','夹'],
+      ['去','云','夫','法'], ['梳','疏','秀'], ['浓','农','脓','酿'],
+      ['毛','矛','耗','毫'], ['虫','蚀','虹','强'],
+      ['眉','媚','楣','郿'], ['病','痛','疯','疼'],
+      ['海','河','湖','涂'], ['岛','捣','到','道'],
+      ['常','尝','裳','偿'], ['幸','辛','杏','性'],
+      ['合','盒','河','何'], ['季','李','杏','秀'],
+      ['弓','工','功','攻'], ['跳','逃','挑','桃'],
+      ['泼','拨','拔','发'], ['弯','湾','湾','环'],
+      ['棵','颗','课','科'], ['阵','陈','震','振'],
+      ['望','忘','旺','王'], ['帆','凡','繁','烦'],
+      ['虹','红','洪','鸿'], ['桥','侨','桥','巧'],
+      ['群','裙','君','军'], ['拦','蓝','栏','篮'],
+      ['堵','赌','都','阅'], ['硬','更','便','硬'],
+      ['铜','同','桐','统'], ['钱','前','浅','欠'],
+      ['际','际','祭','济'], ['袜','衩','抹','莫'],
+      ['剪','箭','浅','前'], ['窗','创','床','闯'],
+      ['弯','湾','湾','环'], ['穷','穹','空','穿'],
+      ['初','出','处','础'], ['像','象','橡','相'],
+      ['漂','飘','票','标'], ['弯','湾','环','换'],
+      ['空','孔','突','窗'], ['猎','错','借','惜'],
+      ['丛','从','纵','匆'], ['披','批','皮','疲'],
+      ['梨','利','李','离'], ['抬','台','太','态'],
+      ['滑','画','划','化'], ['荆','京','惊','精'],
+      ['答','搭','达','塔'], ['伸','深','申','神'],
+      ['叨','倒','刀','到'], ['演','眼','严','研'],
+      // 第二轮：覆盖词库高频未覆盖字
+      ['子','字','孑','于'], ['色','巴','邑','包'],
+      ['人','入','八','大'], ['然','燃','炙','焰'],
+      ['水','冰','永','木'], ['力','办','功','劝'],
+      ['一','二','三','十'], ['生','升','声','甥'],
+      ['意','义','忆','艺'], ['丝','司','私','思'],
+      ['实','宝','完','守'], ['美','羊','善','羡'],
+      ['马','鸟','驹','驰'], ['定','宝','字','完'],
+      ['时','村','对','过'], ['菜','草','茶','果'],
+      ['星','晴','晶','醒'], ['来','未','末','本'],
+      ['日','白','目','旦'], ['戏','细','系','习'],
+      ['雨','雪','云','雾'], ['叶','页','业','夜'],
+      ['周','风','讽'], ['游','泳','流','放'],
+      ['好','妈','奶','妙'], ['母','每','无','免'],
+      ['小','少','水','永'], ['笔','毛','必','币'],
+      ['快','块','怪','筷'], ['慢','漫','曼','漫'],
+      ['老','考','者','抱'], ['灵','火','灰','灸'],
+      ['树','村','对','邮'], ['蛋','但','担','单'],
+      ['野','里','甲','外'], ['事','是','市','式'],
+      ['为','办','分'], ['传','转','专','砖'],
+      ['说','话','语'], ['用','月','肉','舟'],
+      ['童','同','铜','统'], ['全','王','主','玉'],
+      ['外','处','央','大'], ['民','每','们','名'],
+      ['动','重','冲','懂'], ['别','另','拐','剑'],
+      ['手','毛','扔','打'], ['连','远','车','还'],
+      ['结','洁','吉','计'], ['达','这','过','还'],
+      ['都','赌','阅','堵'], ['与','写','马','鸟'],
+      ['两','俩','量','亮'], ['公','工','功','红'],
+      ['场','汤','扬'], ['池','他','地','也'],
+      ['间','问','闲'], ['路','跳','踢'],
+      ['首','手','收'], ['歌','哥','各','鸽'],
+      ['绿','录','禄'], ['阴','阳','音','荫'],
+      ['冷','令','邻','零'], ['晨','辰','臣','陈'],
+      ['霞','暇','下'], ['雾','雪','误','务'],
+      ['蜂','峰','锋','烽'], ['蝶','碟','谍','蝶'],
+      ['蜻','清','青','请'], ['蜓','亭','停','听'],
+      ['露','路','陆','鹿'], ['朝','潮','嘲','朝'],
+      ['红','虹','洪','鸿'], ['杏','幸','性','兴'],
+      ['梨','利','李','离'], ['紫','此','柴','刺'],
+      ['泼','拨','拔','发'], ['剩','乘','盛','胜'],
+      ['嘴','醉','最','咀'], ['猴','候','喉','厚'],
+      ['熊','雄','熏','勋'], ['葡','萄','陶','淘'],
+      ['蛙','洼','挖','娃'], ['塘','糖','唐','堂'],
+      ['卖','买','麦','埋'], ['搬','般','班','扳'],
+      ['倒','到','岛','道'], ['籽','字','子','紫'],
+      ['浇','烧','绕','晓'], ['灌','罐','观','贯'],
+      ['舒','书','输','抒'], ['柔','揉','柔','肉'],
+      ['嫩','恨','能','很'], ['脆','翠','碎','粹'],
+      ['葡','桃','淘','萄'], ['葡','萄','陶','淘'],
+    ];
+
+    // 查找某个字的同形近字（错别字候选）
+    function findConfusableChars(ch) {
+      for (const g of VISUAL_CONFUSABLE_GROUPS) {
+        if (g.includes(ch)) return g.filter(c => c !== ch);
+      }
+      return [];
+    }
+
+    // 生成错别字版本的词语（返回数组形式，4 字段：word/space/tone/mark）
+    function makeMisspellingVariant(word) {
+      const chars = [...word];
+      const positions = [...Array(chars.length).keys()];
+      for (let i = positions.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [positions[i], positions[j]] = [positions[j], positions[i]];
+      }
+      for (const pos of positions) {
+        const alts = findConfusableChars(chars[pos]);
+        if (alts.length > 0) {
+          const newChar = alts[Math.floor(Math.random() * alts.length)];
+          const newChars = chars.map((c, i) => i === pos ? newChar : c);
+          const newWord = newChars.join('');
+          try {
+            const pySpace = window.pinyinPro.pinyin(newWord, { toneType: 'none', type: 'array' }).join(' ');
+            const pyTone = window.pinyinPro.pinyin(newWord, { toneType: 'num', type: 'array' }).join(' ');
+            const pyMark = window.pinyinPro.pinyin(newWord, { toneType: 'symbol', type: 'array' }).join(' ');
+            // 返回数组形式，跟 WORDS 一致
+            return [newWord, pySpace, pyTone, pyMark, true];  // 末尾 true = 错别字标记
+          } catch (e) { return null; }
+        }
+      }
+      return null;
+    }
+
+    // ===== 声调符号映射（用于手动修改音调，不依赖 pinyin-pro） =====
+    const TONE_BASE_TO_SYMBOL = {
+      'a': ['ā', 'á', 'ǎ', 'à'],
+      'e': ['ē', 'é', 'ě', 'è'],
+      'i': ['ī', 'í', 'ǐ', 'ì'],
+      'o': ['ō', 'ó', 'ǒ', 'ò'],
+      'u': ['ū', 'ú', 'ǔ', 'ù'],
+      'ü': ['ǖ', 'ǘ', 'ǚ', 'ǜ'],
+    };
+    const SYMBOL_TO_BASE_TONE = {};
+    for (const [base, syms] of Object.entries(TONE_BASE_TO_SYMBOL)) {
+      syms.forEach((s, i) => { SYMBOL_TO_BASE_TONE[s] = [base, i + 1]; });
+    }
+    function changeSyllableTone(syllable, newTone) {
+      for (const [sym, [base]] of Object.entries(SYMBOL_TO_BASE_TONE)) {
+        if (syllable.includes(sym)) {
+          return syllable.replace(sym, TONE_BASE_TO_SYMBOL[base][newTone - 1]);
+        }
+      }
+      return syllable;
+    }
+
+    // 生成音调错误版本（拼写一样，音调错）
+    function makeToneMistakeVariant(target) {
+      const pyTone = target[2];  // 如 'zhuǎn3 jiāo4'
+      const pyMark = target[3];  // 如 'zhuǎn jiāo'
+      const toneTokens = pyTone.split(' ');
+      const markTokens = pyMark.split(' ');
+      const pos = Math.floor(Math.random() * toneTokens.length);
+      const origTone = (toneTokens[pos].match(/\d/) || [])[0];
+      if (!origTone) return null;
+      const wrongTones = ['1','2','3','4'].filter(t => t !== origTone);
+      const wrongTone = wrongTones[Math.floor(Math.random() * wrongTones.length)];
+      const newMarkToken = changeSyllableTone(markTokens[pos], parseInt(wrongTone, 10));
+      const newPyTone = toneTokens.map((t, i) => i === pos ? t.replace(/\d/, wrongTone) : t).join(' ');
+      const newPyMark = markTokens.map((m, i) => i === pos ? newMarkToken : m).join(' ');
+      return ['', newPyTone, newPyTone, newPyMark, false, true];
+    }
+
+    // ===== MC 模式1：词选项（含1错别字 + 共享字近似） =====
+    function generateMC1WordChoices(target) {
+      const [word, pySpace] = target;
+      const wordChars = [...word];
+      // 排除同音
+      const others = WORDS.filter(w =>
+        w !== target && w[1].toLowerCase() !== pySpace.toLowerCase()
+      );
+      // 优先：同长度 + 至少 1 个共享字
+      const similar = others.filter(w =>
+        w[0].length === word.length &&
+        [...w[0]].some(c => wordChars.includes(c))
+      );
+      // 优先级 1: 错别字变体
+      const misspell = makeMisspellingVariant(word);
+      // 优先级 2: 共享字近似词
+      const out = [target];
+      if (misspell) out.push(misspell);
+      const pool = [...similar];
+      for (let i = out.length; i < 4 && pool.length > 0; i++) {
+        const idx = Math.floor(Math.random() * pool.length);
+        out.push(pool.splice(idx, 1)[0]);
+      }
+      if (out.length < 4) {
+        const rest = others.filter(w => !out.includes(w));
+        while (out.length < 4 && rest.length > 0) {
+          const idx = Math.floor(Math.random() * rest.length);
+          out.push(rest.splice(idx, 1)[0]);
+        }
+      }
+      for (let i = out.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [out[i], out[j]] = [out[j], out[i]];
+      }
+      return out;
+    }
+
+    // ===== MC 模式3：拼音选项（含1音调错误 + 音韵混淆） =====
+    function generateMC3PinyinChoices(target) {
+      const [word, , pyTone] = target;
+      const variants = genPinyinVariants(pyTone);
+      // 查索引：每个变体对应的真实词
+      const candidateMap = new Map();
+      for (const v of variants) {
+        if (PY_TONE_INDEX[v]) {
+          for (const w of PY_TONE_INDEX[v]) {
+            if (w !== target && w[0] !== word) {
+              candidateMap.set(w[0], w);
+            }
+          }
+        }
+      }
+      const fromVariants = [...candidateMap.values()];
+      const out = [target];
+      // 优先级 1：音调错误变体（拼写一样，音调错）
+      const toneMistake = makeToneMistakeVariant(target);
+      if (toneMistake) out.push(toneMistake);
+      // 优先级 2：音韵混淆变体命中
+      const pool2 = [...fromVariants];
+      for (let i = out.length; i < 4 && pool2.length > 0; i++) {
+        const idx = Math.floor(Math.random() * pool2.length);
+        out.push(pool2.splice(idx, 1)[0]);
+      }
+      // 优先级 3：fallback 到「同长度 + 共享字」近似词
+      if (out.length < 4) {
+        const wordChars = [...word];
+        const similar = WORDS.filter(w =>
+          w !== target && w[0] !== word &&
+          w[0].length === word.length &&
+          [...w[0]].some(c => wordChars.includes(c)) &&
+          !out.includes(w)
+        );
+        while (out.length < 4 && similar.length > 0) {
+          const idx = Math.floor(Math.random() * similar.length);
+          out.push(similar.splice(idx, 1)[0]);
+        }
+      }
+      if (out.length < 4) {
+        const rest = WORDS.filter(w => w !== target && w[0] !== word && !out.includes(w));
+        while (out.length < 4 && rest.length > 0) {
+          const idx = Math.floor(Math.random() * rest.length);
+          out.push(rest.splice(idx, 1)[0]);
+        }
+      }
+      for (let i = out.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [out[i], out[j]] = [out[j], out[i]];
+      }
+      return out;
+    }
+
+    function renderPinyinMark(pinyin) {
+      // 拼音带声调符号（ā á ǎ à），用微软雅黑字体保证符号位置正确
+      return pinyin.split(' ').map(tok =>
+        `<span class="pinyin-tok">${tok}</span>`
+      ).join(' ');
+    }
+
+    function newQuestion() {
+      state.qIndex += 1;
+      state.lock = false;
+      const w = randWord();
+      if (!w) {
+        qlabel.textContent = '[ NO DATA ]';
+        qtext.textContent = '词库为空';
+        return;
+      }
+      const [word, pySpace, pyTone, pyMark] = w;
+      state.current = { word, pySpace, pyTone, pyMark };
+
+      // 清理视觉态
+      card.classList.remove('correct', 'wrong', 'fillblank');
+      fb.className = 'feedback idle';
+      fb.innerHTML = '<span class="hint">// AWAITING INPUT //</span>';
+      ans.value = '';
+      ans.classList.remove('shake');
+
+      if (state.mode === 'py2word') {
+        qlabel.textContent = '// 看拼音，选词语 //';
+        qtext.innerHTML = renderPinyinMark(pyMark);
+        // MC 模式：4 选 1，含 1 个错别字干扰
+        const choices = generateMC1WordChoices(w);
+        fb.className = 'feedback';
+        fb.innerHTML = choices.map((c, i) => {
+          const L = ['A', 'B', 'C', 'D'][i];
+          return `<button class="btn mc-choice" data-correct="${c === w}" style="font-family:'Microsoft YaHei','微软雅黑',sans-serif;font-size:28px;padding:14px 28px;letter-spacing:.04em;">${L}. ${c[0]}</button>`;
+        }).join(' ');
+        ans.style.display = 'none';
+        $('#submit').style.display = 'none';
+        fb.querySelectorAll('button').forEach(btn => {
+          btn.addEventListener('click', () => {
+            if (state.lock) return;
+            const correct = btn.dataset.correct === 'true';
+            state.lock = true;
+            card.classList.add(correct ? 'correct' : 'wrong');
+            fb.className = 'feedback ' + (correct ? 'correct' : 'wrong');
+            if (correct) {
+              state.ok += 1;
+              fb.innerHTML = `<div class="verdict">✓ CORRECT</div><div class="answer">${word} · ${pyMark}</div>`;
+            } else {
+              state.no += 1;
+              fb.innerHTML = `<div class="verdict">✗ WRONG</div><div class="answer">正确：${word} · ${pyMark}</div>`;
+            }
+            updateStats();
+          });
+        });
+        updateStats();
+        return;
+      } else if (state.mode === 'fillblank') {
+        // 背诵默写模式：两种策略
+        card.classList.add('fillblank');
+        const item = RECITES[Math.floor(Math.random() * RECITES.length)];
+        const content = item[4];
+        // 按句号/问号/感叹号分句（保留逗号在一段里）
+        const segments = [];
+        let buf = '';
+        for (const c of content) {
+          buf += c;
+          if (/[。！？]/.test(c)) {
+            segments.push(buf);
+            buf = '';
+          }
+        }
+        if (buf) segments.push(buf);
+        if (segments.length === 0) {
+          qlabel.textContent = '// 默写 · ' + item[0] + ' //';
+          qtext.textContent = '内容过短';
+          return;
+        }
+
+        let display = '';
+        let answers = [];
+        if (state.fillblankMode === 'whole') {
+          // 整段挖空：随机挖 N 段
+          const N = Math.min(state.fillblankWhole, segments.length - 1);
+          const idxs = [...Array(segments.length).keys()];
+          for (let i = idxs.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [idxs[i], idxs[j]] = [idxs[j], idxs[i]];
+          }
+          const removed = new Set(idxs.slice(0, N));
+          answers = segments.filter((_, i) => removed.has(i));
+          display = segments.map((seg, i) => {
+            if (removed.has(i)) {
+              return '<span class="blank-slot whole-blank">' + '____'.repeat(Math.max(seg.length, 4)) + '</span>';
+            }
+            return seg;
+          }).join('');
+        } else {
+          // 末尾挖字：每段末尾挖 M 字
+          const M = state.fillblankTail;
+          for (const seg of segments) {
+            const chars = [...seg];
+            const cidxs = [];
+            for (let i = 0; i < chars.length; i++) {
+              if (/[一-鿿]/.test(chars[i])) cidxs.push(i);
+            }
+            const removeCidxs = new Set(cidxs.slice(-M));
+            const removedChars = cidxs.slice(-M).map(i => chars[i]);
+            answers.push(removedChars.join(''));
+            let d = '';
+            for (let i = 0; i < chars.length; i++) {
+              if (removeCidxs.has(i)) {
+                d += '<span class="blank-slot tail-blank">__</span>';
+              } else {
+                d += chars[i];
+              }
+            }
+            display += d;
+          }
+        }
+
+        qlabel.textContent = '// 默写 · ' + item[0] + ' · ' + item[1] + ' //';
+        qtext.innerHTML = display;
+        ans.placeholder = answers.map(a => a.length > 10 ? a.slice(0, 8) + '…' : a).join(' / ');
+        state.current = { content, title: item[0], answers, mode: state.fillblankMode, segments };
+        ans.style.display = '';
+        $('#submit').style.display = '';
+        ans.focus();
+        updateStats();
+        return;
+      } else if (state.mode === 'mc') {
+        qlabel.textContent = '// 看词语，选拼音 //';
+        qtext.textContent = word;
+        // MC 模式：4 选 1，含 1 个音调错误干扰
+        const choices = generateMC3PinyinChoices(w);
+        fb.className = 'feedback';
+        fb.innerHTML = choices.map((c, i) => {
+          const pyMark = c[3];
+          const L = ['A', 'B', 'C', 'D'][i];
+          return `<button class="btn mc-choice" data-correct="${c === w}" data-py="${pyMark}" style="font-family:'Microsoft YaHei','微软雅黑',sans-serif;font-size:26px;padding:14px 28px;letter-spacing:.04em;">${L}. ${pyMark}</button>`;
+        }).join(' ');
+        // 改输入框提示
+        ans.placeholder = '或者在下面输入拼音（带空格）';
+        // 绑按钮事件
+        fb.querySelectorAll('button').forEach(btn => {
+          btn.addEventListener('click', () => {
+            if (state.lock) return;
+            const correct = btn.dataset.correct === 'true';
+            state.lock = true;
+            card.classList.add(correct ? 'correct' : 'wrong');
+            fb.className = 'feedback ' + (correct ? 'correct' : 'wrong');
+            if (correct) {
+              state.ok += 1;
+              fb.innerHTML = `<div class="verdict">✓ CORRECT</div><div class="answer">${word} = ${pySpace}</div>`;
+            } else {
+              state.no += 1;
+              fb.innerHTML = `<div class="verdict">✗ WRONG</div><div class="answer">${word} = ${pySpace}</div>`;
+            }
+            updateStats();
+          });
+        });
+        // 隐藏输入框在选择题下
+        ans.style.display = 'none';
+        $('#submit').style.display = 'none';
+        updateStats();
+        return;
+      }
+      // py2word / word2py 显示输入框
+      ans.style.display = '';
+      $('#submit').style.display = '';
+      ans.focus();
+      updateStats();
+    }
+
+    function updateStats() {
+      const total = state.ok + state.no;
+      sq.textContent = `${state.qIndex}`;
+      sok.textContent = state.ok;
+      sno.textContent = state.no;
+      sacc.textContent = total ? Math.round(state.ok / total * 100) + '%' : '—';
+    }
+
+    function check() {
+      if (state.lock) return;
+      const v = ans.value.trim();
+      if (!v) return;
+      state.lock = true;
+      const cur = state.current;
+      let correct = false, expected = '';
+      if (state.mode === 'py2word') {
+        const { word, pySpace, pyMark } = cur;
+        expected = word;
+        correct = v === word;
+        if (correct) {
+          state.ok += 1;
+          fb.innerHTML = `<div class="verdict">✓ CORRECT</div><div class="answer">${word} · ${pyMark}</div>`;
+        } else {
+          state.no += 1;
+          ans.classList.add('shake');
+          fb.innerHTML = `<div class="verdict">✗ WRONG</div><div class="answer">正确：${word} · ${pyMark}</div><div style="color:var(--ink-2);font-size:14px;">你的答案：${v}</div>`;
+        }
+        correct = v === word;
+      } else if (state.mode === 'fillblank') {
+        const { content, title } = cur;
+        // 判分：去空白后严格匹配
+        const expected = content.replace(/\s+/g, '').replace(/[。，、；：？！「」]/g, (m) => m);
+        const userAns = v.replace(/\s+/g, '');
+        if (userAns === content.replace(/\s+/g, '')) {
+          state.ok += 1;
+          fb.innerHTML = `<div class="verdict">✓ CORRECT</div><div class="answer">${title} · ${content}</div>`;
+        } else {
+          state.no += 1;
+          ans.classList.add('shake');
+          // 找到第一个错字位置
+          let hint = '';
+          for (let i = 0; i < Math.min(userAns.length, content.length); i++) {
+            if (userAns[i] !== content[i]) {
+              hint = `<div style="color:var(--neon-red);font-size:14px;margin-top:4px;">第 ${i + 1} 字不一致：你的「${userAns[i] || '（空）'}」≠ 正确「${content[i]}」</div>`;
+              break;
+            }
+          }
+          if (!hint && userAns.length !== content.length) {
+            hint = `<div style="color:var(--neon-red);font-size:14px;margin-top:4px;">字数不对：你的 ${userAns.length} 字 ≠ 正确 ${content.length} 字</div>`;
+          }
+          fb.innerHTML = `<div class="verdict">✗ WRONG</div><div class="answer">正确：${content}</div><div style="color:var(--ink-2);font-size:14px;margin-top:6px;">你的答案：${v}</div>${hint}`;
+        }
+        correct = userAns === content.replace(/\s+/g, '');
+      }
+      card.classList.add(correct ? 'correct' : 'wrong');
+      fb.className = 'feedback ' + (correct ? 'correct' : 'wrong');
+      updateStats();
+    }
+
+    // ===== 事件 =====
+    document.getElementById('tabs').addEventListener('click', e => {
+      const btn = e.target.closest('.tab');
+      if (!btn) return;
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      btn.classList.add('active');
+      state.mode = btn.dataset.mode;
+      newQuestion();
+    });
+    $('#submit').addEventListener('click', check);
+    $('#next').addEventListener('click', newQuestion);
+    $('#reset').addEventListener('click', () => {
+      state.qIndex = 0; state.ok = 0; state.no = 0;
+      updateStats();
+      newQuestion();
+    });
+    $('#filter-len').addEventListener('change', e => { state.filterLen = e.target.value; newQuestion(); });
+    $('#filter-src').addEventListener('change', e => { state.filterSrc = e.target.value; newQuestion(); });
+    $('#fillblank-mode').addEventListener('change', e => { state.fillblankMode = e.target.value; newQuestion(); });
+    $('#fillblank-count').addEventListener('change', e => {
+      const v = parseInt(e.target.value, 10);
+      if (state.fillblankMode === 'whole') state.fillblankWhole = v;
+      else state.fillblankTail = v;
+      newQuestion();
+    });
+    ans.addEventListener('keydown', e => { if (e.key === 'Enter') check(); });
+    document.addEventListener('keydown', e => {
+      if (e.key === ' ' && document.activeElement !== ans) {
+        e.preventDefault();
+        newQuestion();
+      }
+    });
+
+    // 首屏
+    updateStats();
+  </script>
+</body>
+</html>
