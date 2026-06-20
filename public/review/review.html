@@ -181,6 +181,25 @@
     .card.correct .question { color: #e8fff0; }
     .card.wrong .question { color: #ffe8ec; }
 
+    /* 答题后反馈区可点击 → 进入下一题 */
+    .feedback.clickable {
+      cursor: pointer;
+    }
+    .feedback.clickable:hover {
+      background: rgba(0,240,255,.05);
+      border-radius: 8px;
+    }
+    .feedback.clickable::after {
+      content: "↪ 点击任意位置进入下一题";
+      display: block;
+      margin-top: 16px;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 12px;
+      letter-spacing: .15em;
+      color: var(--ink-2);
+      animation: pulse 1.5s infinite;
+    }
+
     .question .pinyin-tok {
       display: inline-block;
       margin: 0 6px;
@@ -286,6 +305,45 @@
     }
     .btn:hover { background: linear-gradient(135deg, rgba(0,240,255,.35), rgba(184,41,255,.35)); box-shadow: var(--glow-cyan); transform: translateY(-1px); }
     .btn.mc-choice { min-width: 220px; font-weight: 500; }  /* 选拼音模式选项：微软雅黑、宽松、相对中等粗细 */
+
+    /* ========== 移动端适配（≤768px） ========== */
+    @media (max-width: 768px) {
+      body { padding: 8px; }
+      .stage { padding: 8px; min-height: 100vh; }
+      header { flex-wrap: wrap; gap: 8px; padding: 8px 0 12px; }
+      .logo { font-size: 16px; }
+      .logo span { font-size: 11px; }
+      .stats { gap: 6px; }
+      .stats .pill { font-size: 10px; padding: 3px 8px; letter-spacing: .05em; }
+      .tabs { gap: 6px; margin-bottom: 12px; }
+      .tab { font-size: 11px; padding: 8px 4px; letter-spacing: .05em; }
+      .tab .icon { font-size: 14px; margin-bottom: 2px; }
+      .card { padding: 20px 16px; min-height: auto; border-radius: 20px; }
+      .corner { width: 14px; height: 14px; }
+      .corner.tl, .corner.bl { left: 8px; }
+      .corner.tr, .corner.br { right: 8px; }
+      .corner.tl, .corner.tr { top: 8px; }
+      .corner.bl, .corner.br { bottom: 8px; }
+      .question { font-size: 36px; min-height: 50px; line-height: 1.2; letter-spacing: .02em; word-break: break-word; }
+      .question .pinyin-tok { font-size: .6em; margin: 0 2px; padding: 2px 4px; min-width: 1.4em; }
+      .input-row { flex-direction: column; gap: 8px; margin-top: 18px; }
+      .input { font-size: 18px; padding: 12px 14px; letter-spacing: .04em; }
+      .btn { font-size: 13px; padding: 12px 16px; letter-spacing: .08em; }
+      .btn.mc-choice { font-size: 16px; padding: 10px 14px; min-width: 0; width: 100%; margin: 0; }
+      .feedback { margin-top: 18px; gap: 6px; font-size: 16px; min-height: 50px; }
+      .feedback .verdict { font-size: 22px; letter-spacing: .1em; }
+      .feedback .answer { font-size: 16px; margin-top: 4px; }
+      .feedback.clickable::after { font-size: 10px; margin-top: 12px; }
+      .feedback.idle { font-size: 12px; }
+      .card.fillblank .question { font-size: 17px; line-height: 1.7; max-width: 100%; }
+      .card.fillblank .question .blank-slot { min-width: 1.2em; padding: 0 2px; margin: 0; }
+      .card.fillblank .input { font-size: 16px; padding: 10px 12px; min-height: 60px; }
+      .controls { flex-wrap: wrap; gap: 6px; margin-top: 12px; }
+      .filter { font-size: 10px; gap: 4px; }
+      .filter select { font-size: 11px; padding: 4px 6px; max-width: 100px; }
+      #prev, #next, #reset { font-size: 12px; padding: 8px 12px; }
+      .vnum-watermark { display: none; }
+    }
     .btn:active { transform: translateY(0); }
     .btn.primary { color: var(--bg-0); background: linear-gradient(135deg, var(--neon-cyan), var(--neon-purple)); border-color: transparent; }
     .btn.primary:hover { box-shadow: var(--glow-cyan), var(--glow-purple); }
@@ -325,6 +383,10 @@
     .controls {
       display: flex; gap: 12px; margin-top: 20px;
       align-items: center; justify-content: center;
+      flex-wrap: wrap;
+    }
+    .controls-row {
+      display: contents;  /* PC 端扁平化 */
     }
     .filter {
       display: flex; gap: 6px; align-items: center;
@@ -399,41 +461,47 @@
     </div>
 
     <div class="controls">
-      <button class="btn" id="next">下一题 →</button>
-      <div class="filter">
-        词长:
-        <select id="filter-len">
-          <option value="all">全部</option>
-          <option value="2">2 字</option>
-          <option value="3">3 字</option>
-          <option value="4">4 字</option>
-        </select>
+      <div class="controls-row">
+        <div class="filter">
+          词长:
+          <select id="filter-len">
+            <option value="all">全部</option>
+            <option value="2">2 字</option>
+            <option value="3">3 字</option>
+            <option value="4">4 字</option>
+          </select>
+        </div>
+        <div class="filter">
+          范围:
+          <select id="filter-src">
+            <option value="all">全部来源</option>
+            <option value="教辅-识字">教辅-识字</option>
+            <option value="教辅-园地生字">教辅-园地生字</option>
+            <option value="参考答案-看拼音写词">参考答案-看拼音写词</option>
+          </select>
+        </div>
+        <div class="filter">
+          策略:
+          <select id="fillblank-mode">
+            <option value="whole">整段挖空</option>
+            <option value="tail">末尾挖字</option>
+            <option value="random">随机挖空</option>
+          </select>
+        </div>
+        <div class="filter">
+          数量:
+          <select id="fillblank-count">
+            <option value="1">1</option>
+            <option value="2" selected>2</option>
+            <option value="3">3</option>
+          </select>
+        </div>
       </div>
-      <div class="filter">
-        范围:
-        <select id="filter-src">
-          <option value="all">全部来源</option>
-          <option value="教辅-识字">教辅-识字</option>
-          <option value="教辅-园地生字">教辅-园地生字</option>
-          <option value="参考答案-看拼音写词">参考答案-看拼音写词</option>
-        </select>
+      <div class="controls-row">
+        <button class="btn" id="prev">上一题 ←</button>
+        <button class="btn" id="next">下一题 →</button>
+        <button class="btn" id="reset">重置统计</button>
       </div>
-      <div class="filter">
-        策略:
-        <select id="fillblank-mode">
-          <option value="whole">整段挖空</option>
-          <option value="tail">末尾挖字</option>
-        </select>
-      </div>
-      <div class="filter">
-        数量:
-        <select id="fillblank-count">
-          <option value="1">1</option>
-          <option value="2" selected>2</option>
-          <option value="3">3</option>
-        </select>
-      </div>
-      <button class="btn" id="reset">重置统计</button>
     </div>
   </div>
 
@@ -449,9 +517,10 @@
       filterLen: 'all',
       filterSrc: 'all',
       fillblankLevel: 1,
-      fillblankMode: 'whole',  // 'whole' 整段挖空 | 'tail' 末尾挖字
+      fillblankMode: 'whole',  // 'whole' 整段挖空 | 'tail' 末尾挖字 | 'random' 随机挖字
       fillblankWhole: 2,       // 整段挖空挖 N 段
       fillblankTail: 3,        // 末尾挖空挖 N 字
+      history: [],              // 上一题历史栈
     };
 
     const $ = (s) => document.querySelector(s);
@@ -882,6 +951,11 @@
         return;
       }
       const [word, pySpace, pyTone, pyMark] = w;
+      // 如果有上一题 current 且不是 fillblank 模式，先入历史栈
+      if (state.current && state.mode !== 'fillblank') {
+        state.history.push({ mode: state.mode, current: state.current });
+        if (state.history.length > 50) state.history.shift();
+      }
       state.current = { word, pySpace, pyTone, pyMark };
 
       // 清理视觉态
@@ -904,12 +978,13 @@
         ans.style.display = 'none';
         $('#submit').style.display = 'none';
         fb.querySelectorAll('button').forEach(btn => {
-          btn.addEventListener('click', () => {
+          btn.addEventListener('click', (e) => {
+            e.stopPropagation();
             if (state.lock) return;
             const correct = btn.dataset.correct === 'true';
             state.lock = true;
             card.classList.add(correct ? 'correct' : 'wrong');
-            fb.className = 'feedback ' + (correct ? 'correct' : 'wrong');
+            fb.className = 'feedback ' + (correct ? 'correct' : 'wrong') + ' clickable';
             if (correct) {
               state.ok += 1;
               fb.innerHTML = `<div class="verdict">✓ CORRECT</div><div class="answer">${word} · ${pyMark}</div>`;
@@ -918,6 +993,8 @@
               fb.innerHTML = `<div class="verdict">✗ WRONG</div><div class="answer">正确：${word} · ${pyMark}</div>`;
             }
             updateStats();
+            // 答题后：整个 card 区域任意位置点击 → 下一题
+            attachCardClick();
           });
         });
         updateStats();
@@ -962,7 +1039,7 @@
             }
             return seg;
           }).join('');
-        } else {
+        } else if (state.fillblankMode === 'tail') {
           // 末尾挖字：每段末尾挖 M 字
           const M = state.fillblankTail;
           for (const seg of segments) {
@@ -983,6 +1060,29 @@
               }
             }
             display += d;
+          }
+        } else {
+          // 随机挖字：横跨所有中文字符，挖 N 字（10-20 随机）
+          const chars = [...content];
+          const cidxs = [];
+          for (let i = 0; i < chars.length; i++) {
+            if (/[一-鿿]/.test(chars[i])) cidxs.push(i);
+          }
+          const N = Math.min(cidxs.length, 10 + Math.floor(Math.random() * 11));
+          const idxs = [...cidxs];
+          for (let i = idxs.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [idxs[i], idxs[j]] = [idxs[j], idxs[i]];
+          }
+          const removedCidxs = new Set(idxs.slice(0, N));
+          const removedChars = idxs.slice(0, N).map(i => chars[i]);
+          answers = [removedChars.join('')];
+          for (let i = 0; i < chars.length; i++) {
+            if (removedCidxs.has(i)) {
+              display += '<span class="blank-slot tail-blank">__</span>';
+            } else {
+              display += chars[i];
+            }
           }
         }
 
@@ -1010,20 +1110,22 @@
         ans.placeholder = '或者在下面输入拼音（带空格）';
         // 绑按钮事件
         fb.querySelectorAll('button').forEach(btn => {
-          btn.addEventListener('click', () => {
+          btn.addEventListener('click', (e) => {
+            e.stopPropagation();
             if (state.lock) return;
             const correct = btn.dataset.correct === 'true';
             state.lock = true;
             card.classList.add(correct ? 'correct' : 'wrong');
-            fb.className = 'feedback ' + (correct ? 'correct' : 'wrong');
+            fb.className = 'feedback ' + (correct ? 'correct' : 'wrong') + ' clickable';
             if (correct) {
               state.ok += 1;
-              fb.innerHTML = `<div class="verdict">✓ CORRECT</div><div class="answer">${word} = ${pySpace}</div>`;
+              fb.innerHTML = `<div class="verdict">✓ CORRECT</div><div class="answer">${word} = ${pyMark}</div>`;
             } else {
               state.no += 1;
-              fb.innerHTML = `<div class="verdict">✗ WRONG</div><div class="answer">${word} = ${pySpace}</div>`;
+              fb.innerHTML = `<div class="verdict">✗ WRONG</div><div class="answer">${word} = ${pyMark}</div>`;
             }
             updateStats();
+            // 上一题恢复后不绑 card click
           });
         });
         // 隐藏输入框在选择题下
@@ -1050,10 +1152,14 @@
     function check() {
       if (state.lock) return;
       const v = ans.value.trim();
-      if (!v) return;
+      // 模式 2 (fillblank) 允许空提交，直接显示答案
+      if (!v && state.mode !== 'fillblank') return;
       state.lock = true;
       const cur = state.current;
       let correct = false, expected = '';
+      if (state.mode === 'fillblank') {
+        // 模式 2：fillblank 特殊处理（直接从 cur.answers 取）
+      }
       if (state.mode === 'py2word') {
         const { word, pySpace, pyMark } = cur;
         expected = word;
@@ -1095,7 +1201,23 @@
       }
       card.classList.add(correct ? 'correct' : 'wrong');
       fb.className = 'feedback ' + (correct ? 'correct' : 'wrong');
+      // 答对/答错后：整个 card 区域任意位置点击 → 下一题
+      attachCardClick();
       updateStats();
+    }
+
+    // ===== card 整框点击 → 下一题 =====
+    let cardClickHandler = null;
+    function attachCardClick() {
+      if (cardClickHandler) card.removeEventListener('click', cardClickHandler);
+      cardClickHandler = (e) => {
+        // 排除：button（4 选项/提交）、input（输入框）、select 等
+        if (e.target.closest('button, input, select, textarea')) return;
+        if (state.lock === false) return;
+        state.lock = false;
+        newQuestion();
+      };
+      card.addEventListener('click', cardClickHandler);
     }
 
     // ===== 事件 =====
@@ -1109,8 +1231,83 @@
     });
     $('#submit').addEventListener('click', check);
     $('#next').addEventListener('click', newQuestion);
+    $('#prev').addEventListener('click', () => {
+      if (state.history.length === 0) return;
+      const prev = state.history.pop();
+      state.lock = false;
+      const { word, pySpace, pyTone, pyMark } = prev.current;
+      state.current = prev.current;
+      const w = [word, pySpace, pyTone, pyMark];
+      card.classList.remove('correct', 'wrong', 'fillblank');
+      if (prev.mode === 'py2word') {
+        qlabel.textContent = '// 看拼音，选词语 //';
+        qtext.innerHTML = renderPinyinMark(pyMark);
+        const choices = generateMC1WordChoices(w);
+        fb.className = 'feedback';
+        fb.innerHTML = choices.map((c, i) => {
+          const L = ['A', 'B', 'C', 'D'][i];
+          return `<button class="btn mc-choice" data-correct="${c === w}" style="font-family:'Microsoft YaHei','微软雅黑',sans-serif;font-size:28px;padding:14px 28px;letter-spacing:.04em;">${L}. ${c[0]}</button>`;
+        }).join(' ');
+        ans.style.display = 'none';
+        $('#submit').style.display = 'none';
+        fb.querySelectorAll('button').forEach(btn => {
+          btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (state.lock) return;
+            const correct = btn.dataset.correct === 'true';
+            state.lock = true;
+            card.classList.add(correct ? 'correct' : 'wrong');
+            fb.className = 'feedback ' + (correct ? 'correct' : 'wrong') + ' clickable';
+            if (correct) {
+              state.ok += 1;
+              fb.innerHTML = `<div class="verdict">✓ CORRECT</div><div class="answer">${word} · ${pyMark}</div>`;
+            } else {
+              state.no += 1;
+              fb.innerHTML = `<div class="verdict">✗ WRONG</div><div class="answer">正确：${word} · ${pyMark}</div>`;
+            }
+            updateStats();
+            // 上一题恢复后不绑 card click（防止立即触发下一题）
+            // 用户需要先答完当前题才能进入下一题
+          });
+        });
+      } else if (prev.mode === 'mc') {
+        qlabel.textContent = '// 看词语，选拼音 //';
+        qtext.textContent = word;
+        const choices = generateMC3PinyinChoices(w);
+        fb.className = 'feedback';
+        fb.innerHTML = choices.map((c, i) => {
+          const pyMark = c[3];
+          const L = ['A', 'B', 'C', 'D'][i];
+          return `<button class="btn mc-choice" data-correct="${c === w}" data-py="${pyMark}" style="font-family:'Microsoft YaHei','微软雅黑',sans-serif;font-size:26px;padding:14px 28px;letter-spacing:.04em;">${L}. ${pyMark}</button>`;
+        }).join(' ');
+        ans.style.display = 'none';
+        $('#submit').style.display = 'none';
+        fb.querySelectorAll('button').forEach(btn => {
+          btn.addEventListener('click', () => {
+            if (state.lock) return;
+            const correct = btn.dataset.correct === 'true';
+            state.lock = true;
+            card.classList.add(correct ? 'correct' : 'wrong');
+            fb.className = 'feedback ' + (correct ? 'correct' : 'wrong') + ' clickable';
+            if (correct) {
+              state.ok += 1;
+              fb.innerHTML = `<div class="verdict">✓ CORRECT</div><div class="answer">${word} = ${pyMark}</div>`;
+            } else {
+              state.no += 1;
+              fb.innerHTML = `<div class="verdict">✗ WRONG</div><div class="answer">${word} = ${pyMark}</div>`;
+            }
+            updateStats();
+            fb.onclick = () => {
+              if (state.lock === false) return;
+              state.lock = false;
+              newQuestion();
+            };
+          });
+        });
+      }
+    });
     $('#reset').addEventListener('click', () => {
-      state.qIndex = 0; state.ok = 0; state.no = 0;
+      state.qIndex = 0; state.ok = 0; state.no = 0; state.history = [];
       updateStats();
       newQuestion();
     });
