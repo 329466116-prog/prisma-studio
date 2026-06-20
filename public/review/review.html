@@ -106,14 +106,14 @@
     .tabs { display: flex; gap: 12px; margin-bottom: 24px; }
     .tab {
       flex: 1;
-      padding: 14px 16px;
+      padding: 16px 16px;
       background: rgba(20,20,58,.4);
       border: 1px solid rgba(0,240,255,.25);
       border-radius: 12px;
       color: var(--ink-1);
       font-family: "Orbitron", monospace;
       font-weight: 700;
-      font-size: 14px;
+      font-size: 18px;
       letter-spacing: .12em;
       cursor: pointer;
       transition: all .2s;
@@ -126,7 +126,7 @@
       color: var(--neon-cyan);
       box-shadow: 0 0 16px rgba(0,240,255,.3), inset 0 0 16px rgba(0,240,255,.1);
     }
-    .tab .icon { display: block; font-size: 20px; margin-bottom: 4px; }
+    .tab .icon { display: block; font-size: 28px; margin-bottom: 6px; }
 
     /* ============ 题目卡 ============ */
     .card {
@@ -316,8 +316,8 @@
       .stats { gap: 6px; }
       .stats .pill { font-size: 10px; padding: 3px 8px; letter-spacing: .05em; }
       .tabs { gap: 6px; margin-bottom: 12px; }
-      .tab { font-size: 11px; padding: 8px 4px; letter-spacing: .05em; }
-      .tab .icon { font-size: 14px; margin-bottom: 2px; }
+      .tab { font-size: 18px; padding: 12px 8px; letter-spacing: .05em; }
+      .tab .icon { font-size: 28px; margin-bottom: 5px; }
       .card { padding: 20px 16px; min-height: auto; border-radius: 20px; }
       .corner { width: 14px; height: 14px; }
       .corner.tl, .corner.bl { left: 8px; }
@@ -1088,11 +1088,11 @@
 
         qlabel.textContent = '// 默写 · ' + item[0] + ' · ' + item[1] + ' //';
         qtext.innerHTML = display;
-        ans.placeholder = answers.map(a => a.length > 10 ? a.slice(0, 8) + '…' : a).join(' / ');
         state.current = { content, title: item[0], answers, mode: state.fillblankMode, segments };
-        ans.style.display = '';
+        // 模式 2 为"只读 + 查看答案"模式：隐藏输入框，提交按钮改文字
+        ans.style.display = 'none';
+        $('#submit').textContent = '查看答案';
         $('#submit').style.display = '';
-        ans.focus();
         updateStats();
         return;
       } else if (state.mode === 'mc') {
@@ -1153,7 +1153,7 @@
       if (state.lock) return;
       const v = ans.value.trim();
       // 模式 2 (fillblank) 允许空提交，直接显示答案
-      if (!v && state.mode !== 'fillblank') return;
+      if (!v && state.mode !== 'fillblank' && state.mode !== 'py2word') return;
       state.lock = true;
       const cur = state.current;
       let correct = false, expected = '';
@@ -1174,30 +1174,14 @@
         }
         correct = v === word;
       } else if (state.mode === 'fillblank') {
+        // 模式 2 改为"只读 + 查看答案"：不判对错，直接显示答案
         const { content, title } = cur;
-        // 判分：去空白后严格匹配
-        const expected = content.replace(/\s+/g, '').replace(/[。，、；：？！「」]/g, (m) => m);
-        const userAns = v.replace(/\s+/g, '');
-        if (userAns === content.replace(/\s+/g, '')) {
-          state.ok += 1;
-          fb.innerHTML = `<div class="verdict">✓ CORRECT</div><div class="answer">${title} · ${content}</div>`;
-        } else {
-          state.no += 1;
-          ans.classList.add('shake');
-          // 找到第一个错字位置
-          let hint = '';
-          for (let i = 0; i < Math.min(userAns.length, content.length); i++) {
-            if (userAns[i] !== content[i]) {
-              hint = `<div style="color:var(--neon-red);font-size:14px;margin-top:4px;">第 ${i + 1} 字不一致：你的「${userAns[i] || '（空）'}」≠ 正确「${content[i]}」</div>`;
-              break;
-            }
-          }
-          if (!hint && userAns.length !== content.length) {
-            hint = `<div style="color:var(--neon-red);font-size:14px;margin-top:4px;">字数不对：你的 ${userAns.length} 字 ≠ 正确 ${content.length} 字</div>`;
-          }
-          fb.innerHTML = `<div class="verdict">✗ WRONG</div><div class="answer">正确：${content}</div><div style="color:var(--ink-2);font-size:14px;margin-top:6px;">你的答案：${v}</div>${hint}`;
-        }
-        correct = userAns === content.replace(/\s+/g, '');
+        card.classList.remove('correct', 'wrong');
+        card.classList.add('correct');
+        fb.className = 'feedback correct clickable';
+        fb.innerHTML = `<div class="verdict">✓ 已显示答案</div><div class="answer">${title}</div><div class="answer" style="margin-top:6px;color:var(--neon-green);">${content}</div>`;
+        // 不修改 ok/no 统计（只读模式不计分）
+        correct = true;
       }
       card.classList.add(correct ? 'correct' : 'wrong');
       fb.className = 'feedback ' + (correct ? 'correct' : 'wrong');
