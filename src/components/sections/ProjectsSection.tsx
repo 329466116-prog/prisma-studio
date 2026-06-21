@@ -62,29 +62,78 @@ function CardTop({ project }: { project: Project }) {
 }
 
 /**
+ * TextBlock: 替换左列某位置图片的深底文字块。
+ * - label：黄色 + 微微发光的小标题（静态，无动画）
+ * - body：普通文本，小字号，精简内容保证不需滚动
+ */
+function TextBlock({
+  label,
+  body,
+  height,
+}: {
+  label?: string;
+  body: string;
+  height: string;
+}) {
+  return (
+    <div
+      className="rounded-[40px] sm:rounded-[50px] md:rounded-[60px] border border-[#D7E2EA]/15 bg-[#14171A] p-3 sm:p-4 md:p-5 overflow-hidden flex flex-col"
+      style={{ height }}
+    >
+      {label && (
+        <h4 className="text-[#FCD34D] drop-shadow-[0_0_4px_rgba(252,211,77,0.7)] drop-shadow-[0_0_12px_rgba(252,211,77,0.35)] font-black uppercase tracking-wider text-xs mb-1.5 shrink-0">
+          {label}
+        </h4>
+      )}
+      <p className="text-[#D7E2EA] text-[11px] leading-snug whitespace-pre-line font-medium flex-1">
+        {body}
+      </p>
+    </div>
+  );
+}
+
+/**
  * DefaultProjectCard: 原 3 图布局（左 40% 上下图 + 右 60% 高图）
+ * - 若 project.textCol1Top 存在则渲染 TextBlock 代替上图
+ * - 若 project.textCol1Bottom 存在则渲染 TextBlock 代替下图
  */
 function DefaultProjectCard({ project }: { project: Project }) {
   return (
     <>
       <CardTop project={project} />
       <div className="flex gap-3 sm:gap-4 md:gap-5 w-full mt-4 sm:mt-6">
-        {/* Left column: 2 stacked images (40% width) */}
+        {/* Left column: 2 stacked items (40% width) — 图片或文字块 */}
         <div className="flex flex-col gap-3 sm:gap-4 md:gap-5" style={{ width: "40%" }}>
-          <img
-            src={project.imageCol1Top}
-            alt=""
-            loading="lazy"
-            className="w-full object-cover rounded-[40px] sm:rounded-[50px] md:rounded-[60px]"
-            style={{ height: "clamp(130px, 16vw, 230px)" }}
-          />
-          <img
-            src={project.imageCol1Bottom}
-            alt=""
-            loading="lazy"
-            className="w-full object-cover rounded-[40px] sm:rounded-[50px] md:rounded-[60px]"
-            style={{ height: "clamp(160px, 22vw, 340px)" }}
-          />
+          {project.textCol1Top ? (
+            <TextBlock
+              label={project.textCol1Top.label}
+              body={project.textCol1Top.body}
+              height="clamp(130px, 16vw, 230px)"
+            />
+          ) : (
+            <img
+              src={project.imageCol1Top}
+              alt=""
+              loading="lazy"
+              className="w-full object-cover rounded-[40px] sm:rounded-[50px] md:rounded-[60px]"
+              style={{ height: "clamp(130px, 16vw, 230px)" }}
+            />
+          )}
+          {project.textCol1Bottom ? (
+            <TextBlock
+              label={project.textCol1Bottom.label}
+              body={project.textCol1Bottom.body}
+              height="clamp(160px, 22vw, 340px)"
+            />
+          ) : (
+            <img
+              src={project.imageCol1Bottom}
+              alt=""
+              loading="lazy"
+              className="w-full object-cover rounded-[40px] sm:rounded-[50px] md:rounded-[60px]"
+              style={{ height: "clamp(160px, 22vw, 340px)" }}
+            />
+          )}
         </div>
         {/* Right column: 1 tall image (60% width) */}
         <div style={{ width: "60%" }} className="flex">

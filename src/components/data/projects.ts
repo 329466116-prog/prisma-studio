@@ -7,6 +7,9 @@ export interface Project {
   imageCol1Top: string;
   imageCol1Bottom: string;
   imageCol2Tall: string;
+  /** 文字块（覆盖左列上下两张图片位置）。存在时优先于 imageCol1Top/Bottom */
+  textCol1Top?: { label?: string; body: string };
+  textCol1Bottom?: { label?: string; body: string };
   /** qwenTTS 布局专用字段 */
   audioSrc?: string;
   audioName?: string;
@@ -77,11 +80,45 @@ export const PROJECTS: Project[] = [
   },
   {
     id: 2,
-    name: "Aura Brand Identity",
+    name: "小学课程复习小助手 v1.0",
     category: "Personal",
-    imageCol1Top: "https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_055654_911201c5-36d9-4bc6-bac7-331adfce159f.png&w=1280&q=85",
-    imageCol1Bottom: "https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_055723_5ceda0b8-d9c2-4665-b2e3-83ba19ba76d1.png&w=1280&q=85",
-    imageCol2Tall: "https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_055753_adc5dcbd-a8e6-49c0-b43a-9b030d835cea.png&w=1280&q=85",
+    // 左上：介绍、用途、3 种模式、双端适配
+    textCol1Top: {
+      label: "OVERVIEW · 简介",
+      body: `课程复习小助手 — 帮小学语文（部编版 2 年级下册）课后巩固。
+
+【用途】课后复习 · 家长辅导 · 考前回顾
+【3 种模式】
+1. 拼音 → 词语（4 选 1）
+2. 背诵填空（整段 / 末尾 / 随机挖空）
+3. 选拼音（4 选 1 + 音调干扰）
+【内容】555 词 · 12 段古诗
+【双端】PC + 移动端（≤768px）
+`,
+    },
+    // 左下：技术栈与后台入库路线
+    textCol1Bottom: {
+      label: "TECH STACK · 技术栈",
+      body: `零后端单页应用，全部跑在浏览器里。
+
+【页面技术栈】
+- HTML + CSS + JS（无框架）
+- Orbitron + Noto Sans SC + JetBrains Mono
+- 霓虹科技发光
+
+【后台知识库】
+- PDF → pdftotext · frontmatter + Markdown
+- knowledge/ 目录
+
+【复习内容入库】
+- extract_words.py（jieba + pypinyin）
+- word_bank.js · recite_bank.js
+- 入库：MD5 校验
+`,
+    },
+    imageCol1Top: "",
+    imageCol1Bottom: "",
+    imageCol2Tall: "/cards/cyber-review-v2.webp",
     // 跳转到本地的「二年级下册·霓虹复习舱」独立页面
     linkUrl: "/review/review.html",
     linkLabel: "进入复习舱",

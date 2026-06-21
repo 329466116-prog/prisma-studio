@@ -1,0 +1,25 @@
+/* ScrollFloat component CSS — adjusted default size for section-title use (not 10rem hero size) */
+
+.scroll-float {
+  overflow: hidden;
+}
+
+.scroll-float-text {
+  display: inline-block;
+  /* Section-title 尺寸：移动 24px / PC 32px，原版 clamp(1.6rem, 8vw, 10rem) 太大 */
+  font-size: clamp(1.25rem, 2vw, 1.625rem);
+  font-weight: 900;
+  text-align: left;
+  line-height: 1.2;
+  will-change: transform;
+}
+
+.char {
+  display: inline-block;
+}
+
+/* line 模式：每行一个独立 block，整行整行动画 */
+.line {
+  display: block;
+  min-height: 1em;
+}
