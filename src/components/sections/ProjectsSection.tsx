@@ -81,11 +81,11 @@ function TextBlock({
       style={{ height }}
     >
       {label && (
-        <h4 className="text-[#FCD34D] drop-shadow-[0_0_4px_rgba(252,211,77,0.7)] drop-shadow-[0_0_12px_rgba(252,211,77,0.35)] font-black uppercase tracking-wider text-xs mb-1.5 shrink-0">
+        <h4 className="text-[#FCD34D] drop-shadow-[0_0_4px_rgba(252,211,77,0.7)] drop-shadow-[0_0_12px_rgba(252,211,77,0.35)] font-black uppercase tracking-wider text-xs text-center mb-1.5 shrink-0">
           {label}
         </h4>
       )}
-      <p className="text-[#D7E2EA] text-[11px] leading-snug whitespace-pre-line font-medium flex-1">
+      <p className="text-[#D7E2EA] text-[11px] leading-snug whitespace-pre-line font-medium flex-1 text-center">
         {body}
       </p>
     </div>
@@ -221,25 +221,36 @@ function QwenTTSProjectCard({ project }: { project: Project }) {
               </div>
             </div>
           </div>
-          {/* Bottom: 功能介绍 — 跟 v6 文字块一致 */}
+          {/* Bottom: 功能介绍 — TextBlock 风格（黄色标题 + 小字号） */}
           <div
-            className="rounded-[40px] sm:rounded-[50px] md:rounded-[60px] border border-[#D7E2EA]/15 bg-[#14171A] p-4 sm:p-5 md:p-6 overflow-auto scrollbar-hidden flex-1 min-h-0"
+            className="rounded-[40px] sm:rounded-[50px] md:rounded-[60px] border border-[#D7E2EA]/15 bg-[#14171A] p-3 sm:p-4 md:p-5 overflow-auto scrollbar-hidden flex flex-col flex-1 min-h-0"
           >
-            <p className="text-[#D7E2EA]/50 font-light uppercase tracking-widest text-[10px] sm:text-xs">
+            <h4 className="text-[#FCD34D] drop-shadow-[0_0_4px_rgba(252,211,77,0.7)] drop-shadow-[0_0_12px_rgba(252,211,77,0.35)] font-black uppercase tracking-wider text-sm mb-2 shrink-0">
               {project.infoTitle}
-            </p>
-            <p className="text-[#D7E2EA] text-xs sm:text-sm md:text-base leading-relaxed mt-2 sm:mt-3 whitespace-pre-line">
+            </h4>
+            <p className="text-[#D7E2EA] text-[13px] leading-snug whitespace-pre-line font-medium flex-1">
               {project.infoBody}
             </p>
           </div>
         </div>
-        {/* Right column: 语音剧本 (60% width) — 跟 v6 文字块一致 */}
+        {/* Right column: 语音剧本 (60% width) — TextBlock 风格 + 背景图 + 上到下渐变 */}
         <div style={{ width: "60%" }} className="flex min-h-0">
-          <div className="w-full h-full rounded-[40px] sm:rounded-[50px] md:rounded-[60px] border border-[#D7E2EA]/15 bg-[#14171A] p-5 sm:p-6 md:p-8 overflow-auto scrollbar-hidden">
-            <p className="text-[#D7E2EA]/50 font-light uppercase tracking-widest text-[10px] sm:text-xs">
+          <div className="relative w-full h-full rounded-[40px] sm:rounded-[50px] md:rounded-[60px] border border-[#D7E2EA]/15 bg-[#0C0C0C] p-3 sm:p-4 md:p-5 overflow-auto scrollbar-hidden flex flex-col">
+            {/* 背景图 */}
+            {project.scriptBgImage && (
+              <img
+                src={project.scriptBgImage}
+                alt=""
+                loading="lazy"
+                className="absolute inset-0 w-full h-full object-cover"
+              />
+            )}
+            {/* 渐变遮罩：顶部黑色（突出文字）→ 下部渐变露出图片 */}
+            <div className="absolute inset-0 bg-gradient-to-b from-[#0C0C0C] from-0% via-[#0C0C0C] via-40% to-transparent to-100%" />
+            <h4 className="relative z-10 text-[#FCD34D] drop-shadow-[0_0_4px_rgba(252,211,77,0.7)] drop-shadow-[0_0_12px_rgba(252,211,77,0.35)] font-black uppercase tracking-wider text-sm mb-2 shrink-0">
               {project.scriptTitle}
-            </p>
-            <p className="text-[#D7E2EA] text-sm sm:text-base md:text-lg leading-relaxed mt-3 sm:mt-4 whitespace-pre-line font-light">
+            </h4>
+            <p className="relative z-10 text-[#D7E2EA] text-[13px] leading-snug whitespace-pre-line font-medium flex-1">
               {project.scriptBody}
             </p>
           </div>

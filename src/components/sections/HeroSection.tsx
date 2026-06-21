@@ -16,6 +16,9 @@ const NAV_ITEMS = [
   { label: "联系", href: "#联系" },
 ];
 
+// 访客计数（静态占位，后续可接入 Cloudflare Worker 动态计数）
+const VISITOR_COUNT = "000139";
+
 export default function HeroSection() {
   return (
     <section
@@ -76,7 +79,11 @@ export default function HeroSection() {
           className="font-light tracking-wide leading-snug"
         >
           <span style={{ fontSize: "clamp(0.75rem, 1.4vw, 1.5rem)" }}>
-            电力 AI 行业工程师，致力于打造智能产品
+            我是一名能源软件行业项目经理，也是一名AI产品经理。而您，是本站的第
+            <span className="font-semibold text-[#FFD700] mx-0.5 tabular-nums">
+              {VISITOR_COUNT}
+            </span>
+            位客人。
           </span>
         </GradientText>
       </FadeIn>

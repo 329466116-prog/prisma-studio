@@ -18,6 +18,8 @@ export interface Project {
   audioCustomTrackInfo?: string; // 换行分隔的标题文案
   /** 背景图 URL（qwenTTS 布局上半部装饰） */
   bgImage?: string;
+  /** qwenTTS 布局右侧剧本面板背景图 */
+  scriptBgImage?: string;
   infoTitle?: string;
   infoBody?: string;
   scriptTitle?: string;
@@ -51,6 +53,9 @@ export const PROJECTS: Project[] = [
     // 整张卡片背景图（多多指定的鲜花图）
     bgImage:
       "https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_055654_911201c5-36d9-4bc6-bac7-331adfce159f.png&w=1280&q=85",
+    // 右侧剧本面板背景图（多多指定，6-21 补）
+    scriptBgImage:
+      "https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_055451_e317bf2d-28d4-48cc-86b0-6f72f25b6327.png&w=1280&q=85",
     // Q4：多多亲自写的功能介绍
     infoTitle: "Qwen3-TTS 语音生成",
     infoBody: `我使用 OpenClaw 实现 qwen3-tts 模型本地部署，实现提供剧本给龙虾，龙虾自动输出剧本角色语音。
