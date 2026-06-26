@@ -132,10 +132,57 @@ export const PROJECTS: Project[] = [
     id: 3,
     name: "助你临时抱佛脚的考前刷题小程序",
     category: "Client",
-    imageCol1Top: "https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_055759_963cfb0b-4bd1-4b0f-9d0a-09bd6cf95b2f.png&w=1280&q=85",
-    imageCol1Bottom: "https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_060108_438f781a-9846-4dcc-89ab-c4e6cb830f5b.png&w=1280&q=85",
-    imageCol2Tall: "https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_055818_9d062121-ad7e-46b9-999a-1a6a692ef1ee.png&w=1280&q=85",
-    // 2026-06-26 多多要求：第 3 张卡（Solaris Digital）右上「查看项目」按钮
+    // 左上：背景介绍、用途、功能（~170 字内）
+    textCol1Top: {
+      label: "OVERVIEW · 简介",
+      body: `刷题先锋 — 帮你在考前抱佛脚的高效率刷题工具。
+
+【背景】
+静态网页 + Cloudflare Pages 部署的小程序，
+6-23 从 0 到上线，2 周迭代到 v5.1。
+
+【用途】
+考前抱佛脚 · 错题复习 · 考练仿真
+
+【核心功能】
+1. 单选 / 多选 / 判断 分开练习
+2. 考试模式（混合限时仿真）
+3. 错题训练（跨设备同步）
+4. 每轮随机洗牌
+5. 即时判分，错题高亮 + 正解显示
+
+【题库】2 套 · 1588 题
+电力 AI 700 + 驾考 888（156 带题图）
+`,
+    },
+    // 左下：关键技术、技术路线、特色功能实现方式（~180 字内）
+    textCol1Bottom: {
+      label: "TECH STACK · 技术栈",
+      body: `【页面技术栈】
+- 单文件 HTML + CSS + JS（全 inline）
+- Noto Sans SC + JetBrains Mono
+- Modern Dark + 轻 Cyberpunk 主题
+- deviceScaleFactor=2 · webp 输出
+
+【题库技术路线】
+- Excel → convert.py → questions.js
+- PDF → pdftotext → frontmatter + MD
+- docx → 解压抽图 → R2 公共读 URL
+
+【特色功能实现】
+1. v3.0 错题本跨设备同步
+   - Pages Functions + Cloudflare KV
+2. v5.1 题图渲染
+   - docx 抽图 → 上传 R2 → 注入 qImg
+3. PDF 自动入库
+   - frontmatter 解析 + MD5 去重
+   - 实测准确率 98.7%
+`,
+    },
+    imageCol1Top: "",
+    imageCol1Bottom: "",
+    imageCol2Tall: "/cards/shuati-xianfeng-v2.webp",
+    // 2026-06-26 多多要求：第 3 张卡右上「查看项目」按钮
     // 超链接到 Cloudflare 上的刷题先锋页面（独立部署仓，不在本仓）
     linkUrl: "https://shuati-xianfeng.pages.dev",
     linkLabel: "查看项目",
